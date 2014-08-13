@@ -34,7 +34,8 @@ haggard="haggard"
 configDir="config"
 configFile="board.config.php"
 libDir="lib"
-excludes=($configDir $libDir $configFile $haggard .. . doc .git .gitignore TODO h h.bat tools www)
+
+excludes=($configDir $libDir $configFile $haggard .. . doc .git .gitignore tools TODO LICENSE README.md)
 
 print_logo() {
     clear

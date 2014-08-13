@@ -1,5 +1,6 @@
 *~
 *.bak
+3rdparty/
 config/board.config.php
 config/database.config.php
 tools/__pycache__/
