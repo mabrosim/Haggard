@@ -30,8 +30,9 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-$GLOBALS['board_version'] = "2.0";
+$GLOBALS['board_version'] = "3.0";
 $GLOBALS['maintenance_mode'] = false;
+$GLOBALS['haggard_url'] = "haggard.domain.com";
 
 /* E-mail settings */
 $GLOBALS['send_email_notifications'] = false;
