@@ -1,5 +1,6 @@
 *~
 *.bak
+*.swp
 config/board.config.php
 config/database.config.php
 tools/__pycache__/
