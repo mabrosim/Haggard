@@ -1,4 +1,4 @@
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `board_activity_stat` (
   PRIMARY KEY (`id`),
   KEY `board_id` (`board_id`),
   KEY `date` (`date`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `board_setting` (
   `board_id` int(10) unsigned NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `component` (
   `name` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `board_id` (`board_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `cycle` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `group_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `group_permission` (`permission_id`,`group_id`),
   KEY `group_id` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   PRIMARY KEY (`id`),
   KEY `topic_id` (`topic_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `message_topic` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -104,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `message_topic` (
   PRIMARY KEY (`id`),
   KEY `board_id` (`board_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `pagegen` (
   `board_id` int(10) unsigned NOT NULL,
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `phase_day_stat` (
   PRIMARY KEY (`id`),
   KEY `board_id` (`board_id`),
   KEY `phase` (`phase`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `phase_email_notification` (
   `phase_id` int(11) NOT NULL,
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS `phase_release` (
   `released` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `board_id` (`board_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `phase_subscription` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `phase_subscription` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `phase_user_subscription` (`phase_id`,`user_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `release_ticket` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `release_ticket` (
   PRIMARY KEY (`id`),
   KEY `release_id` (`release_id`),
   KEY `ticket_id` (`ticket_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `ticket` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -268,11 +268,12 @@ CREATE TABLE IF NOT EXISTS `ticket_subscription` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `ticket_user_subscription` (`ticket_id`,`user_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
+  `password` char(40) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `noe_account` varchar(8) DEFAULT NULL,
   `type` enum('USER','SYSTEM_ADMIN') NOT NULL DEFAULT 'USER',
@@ -303,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `user_day_stat` (
   PRIMARY KEY (`id`),
   KEY `board_id` (`board_id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `user_group` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -312,7 +313,7 @@ CREATE TABLE IF NOT EXISTS `user_group` (
   `description` text,
   PRIMARY KEY (`id`),
   KEY `board_id` (`board_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `user_group_link` (
   `user_id` int(10) unsigned NOT NULL,

@@ -47,24 +47,27 @@ if ($args['func'] == "new_user") {
     $timezone = "Europe/Helsinki";
     $site = "FIOUL08";
 
-    $conn = ldap_connect($GLOBALS['ldap_domain_controllers'][0]);
-    if ($conn && ldap_bind($conn, $GLOBALS['ldap_admin'], $GLOBALS['ldap_password'])) {
-        $res = ldap_search($conn, 'o=Nokia', '(mail=' . $mail . ')', array("*"));
-        if ($res) {
-            $info = ldap_get_entries($conn, $res);
-            if ($info['count'] == 0) {
-                echo "Could not find user with email " . $name;
-                return;
+    // TODO: functionality without LDAP
+    if ($GLOBALS['use_ldap']) {
+        $conn = ldap_connect($GLOBALS['ldap_domain_controllers'][0]);
+        if ($conn && ldap_bind($conn, $GLOBALS['ldap_admin'], $GLOBALS['ldap_password'])) {
+            $res = ldap_search($conn, 'o=Nokia', '(mail=' . $mail . ')', array("*"));
+            if ($res) {
+                $info = ldap_get_entries($conn, $res);
+                if ($info['count'] == 0) {
+                    echo "Could not find user with email " . $name;
+                    return;
+                }
+
+                $dn = $info[0]['dn'];
+                $name = $info[0]['cn'][0];
+                $site = $info[0]['nokiasite'][0];
+
+                $country = substr($site, 0, 2);
+                $timezone = getTimezoneByCountry($country);
+            } else {
+                echo "Could not find LDAP username with email " . $name;
             }
-
-            $dn = $info[0]['dn'];
-            $name = $info[0]['cn'][0];
-            $site = $info[0]['nokiasite'][0];
-
-            $country = substr($site, 0, 2);
-            $timezone = getTimezoneByCountry($country);
-        } else {
-            echo "Could not find LDAP username with email " . $name;
         }
     }
 

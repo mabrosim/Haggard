@@ -229,7 +229,7 @@ class Board {
     }
 
     public function getComponents() {
-        if (apc_exists('components' . $this->id)) {
+        if (function_exists('apc_exists') && apc_exists('components' . $this->id)) {
             return apc_fetch('components' . $this->id);
         }
 
@@ -240,7 +240,8 @@ class Board {
                 $components[] = new Component($comp->id);
             }
 
-            apc_store('components' . $this->id, $components);
+            if (function_exists('apc_store'))
+                apc_store('components' . $this->id, $components);
         }
         return $components;
     }
@@ -301,7 +302,8 @@ class Board {
     public function updateClients() {
         $GLOBALS['db']->query("UPDATE pagegen SET id = id + 1 WHERE board_id = '" . $this->id . "' LIMIT 1");
         $pagegen = $GLOBALS['db']->get_var("SELECT id FROM pagegen WHERE board_id = '" . $this->id . "' LIMIT 1");
-        apc_store('pagegen' . $this->id, $pagegen);
+        if (function_exists('apc_store'))
+            apc_store('pagegen' . $this->id, $pagegen);
     }
 
     public function getCurrentCycle() {

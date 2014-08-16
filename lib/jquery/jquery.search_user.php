@@ -37,18 +37,21 @@ if (!isset($args['term'])) {
 
 $name = $args['term'];
 
-$conn = ldap_connect($GLOBALS['ldap_domain_controllers'][0]);
-if (!$conn || !ldap_bind($conn, $GLOBALS['ldap_admin'], $GLOBALS['ldap_password'])) {
-    return;
-}
+// TODO: functionality without LDAP
+if ($GLOBALS['use_ldap']) {
+    $conn = ldap_connect($GLOBALS['ldap_domain_controllers'][0]);
+    if (!$conn || !ldap_bind($conn, $GLOBALS['ldap_admin'], $GLOBALS['ldap_password'])) {
+        return;
+    }
 
-$results = array();
-ldap_set_option($conn, LDAP_OPT_SIZELIMIT, 10);
-$res = @ldap_search($conn, 'o=Nokia', '(|(uid=' . $name . '*) (cn=' . $name . '*) (mail=' . $name . '*))', array('mail', 'cn'));
+    $results = array();
+    ldap_set_option($conn, LDAP_OPT_SIZELIMIT, 10);
+    $res = @ldap_search($conn, 'o=Nokia', '(|(uid=' . $name . '*) (cn=' . $name . '*) (mail=' . $name . '*))', array('mail', 'cn'));
 
-$info = @ldap_get_entries($conn, $res);
-if ($info['count'] == 0) {
-    return;
+    $info = @ldap_get_entries($conn, $res);
+    if ($info['count'] == 0) {
+        return;
+    }
 }
 
 $count = (int) $info['count'];
@@ -62,4 +65,3 @@ for ($i = 0; $i < $count; $i++) {
 }
 
 echo json_encode($results);
-?>

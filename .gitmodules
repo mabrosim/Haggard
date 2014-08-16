@@ -1,0 +1,21 @@
+[submodule "3rdparty/ezSQL"]
+	path = 3rdparty/ezSQL
+	url = https://github.com/ezSQL/ezSQL.git
+[submodule "3rdparty/php-profiler"]
+	path = 3rdparty/php-profiler
+	url = https://github.com/jimrubenstein/php-profiler.git
+[submodule "3rdparty/jquery-farbtastic"]
+	path = 3rdparty/jquery-farbtastic
+	url = https://github.com/mattfarina/farbtastic.git
+[submodule "3rdparty/jquery-placeholder"]
+	path = 3rdparty/jquery-placeholder
+	url = https://github.com/matoilic/jquery.placeholder.git
+[submodule "3rdparty/jquery-tablesorter"]
+	path = 3rdparty/jquery-tablesorter
+	url = https://github.com/Mottie/tablesorter.git
+[submodule "3rdparty/jquery-livequery"]
+	path = 3rdparty/jquery-livequery
+	url = https://github.com/brandonaaron/livequery.git
+[submodule "3rdparty/jquery-cookie"]
+	path = 3rdparty/jquery-cookie
+	url = https://github.com/carhartl/jquery-cookie.git
