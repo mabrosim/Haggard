@@ -45,6 +45,7 @@ $GLOBALS['ldap_domain_controllers'] = array();
 $GLOBALS['ldap_admin'] = null;
 $GLOBALS['ldap_password'] = null;
 
+$GLOBALS['password_salt'] = '';
+
 /* If running benchmarks */
 define("BENCHMARK", 0);
-?>

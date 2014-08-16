@@ -34,7 +34,7 @@ if (!isset($_SESSION['userid'])) {
     return;
 }
 
-echo '<script type="text/javascript" src="./3rdparty/jquery-tablesorter/jquery.tablesorter.min.js" charset="UTF-8"></script>';
+echo '<script type="text/javascript" src="./3rdparty/jquery-tablesorter/js/jquery.tablesorter.min.js" charset="UTF-8"></script>';
 require_once './ticket.class.php';
 require_once './phase.class.php';
 require_once './user.class.php';

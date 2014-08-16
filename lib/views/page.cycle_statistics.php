@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 echo '<link rel="stylesheet" type="text/css" href="./3rdparty/jqplot/jquery.jqplot.min.css" />';
-echo '<script type="text/javascript" src="./3rdparty/jquery-tablesorter/jquery.tablesorter.min.js" charset="UTF-8"></script>';
+echo '<script type="text/javascript" src="./3rdparty/jquery-tablesorter/js/jquery.tablesorter.min.js" charset="UTF-8"></script>';
 echo '<script type="text/javascript" src="./3rdparty/jqplot/jquery.jqplot.min.js"></script>';
 echo '<script type="text/javascript" src="./3rdparty/jqplot/plugins/jqplot.enhancedLegendRenderer.min.js"></script>';
 echo '<script type="text/javascript" src="./3rdparty/jqplot/plugins/jqplot.json2.min.js"></script>';

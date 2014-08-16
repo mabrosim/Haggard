@@ -30,7 +30,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-if (apc_exists('user_ticket_plot' . $GLOBALS['board']->getBoardId())) {
+if (function_exists('apc_exists') && apc_exists('user_ticket_plot' . $GLOBALS['board']->getBoardId())) {
     $ret = apc_fetch('user_ticket_plot' . $GLOBALS['board']->getBoardId(), $status);
     if ($status) {
         echo $ret;
@@ -66,7 +66,8 @@ foreach ($users as $user) {
 $ret['data'] = $arr;
 $retval = json_encode($ret);
 
-apc_store('user_ticket_plot' . $GLOBALS['board']->getBoardId(), $retval);
+if (function_exists('apc_store'))
+    apc_store('user_ticket_plot' . $GLOBALS['board']->getBoardId(), $retval);
 
 echo $retval;
 ?>

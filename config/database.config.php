@@ -30,13 +30,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-$database['version'] = 1;
-$database['root'] = 'root';
-$database['rootpwd'] = '';
-
 $database['username'] = 'haggard';
 $database['password'] = 'haggard';
 $database['host'] = 'localhost';
 $database['database'] = 'haggard';
-
-?>

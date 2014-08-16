@@ -147,57 +147,92 @@ class PageGen {
             }
         }
 
-        $conn = ldap_connect($GLOBALS['ldap_domain_controllers'][0]);
-        if (!$conn || !ldap_bind($conn, $GLOBALS['ldap_admin'], $GLOBALS['ldap_password'])) {
-            $this->login_error = "Could not connect to LDAP";
-            error_log("HAGGARD ERROR [2.0] Problem connecting to LDAP server");
-            return;
-        }
+        if ($GLOBALS['use_ldap']) {
 
-        $res = ldap_search($conn, 'o=Nokia', '(uid=' . $name . ')', array("*"));
-        $info = ldap_get_entries($conn, $res);
-        if ($info['count'] == 0) {
-            $this->login_error = "Could not find user " . $name;
-            error_log("HAGGARD ERROR [2.0]: Cannot find LDAP user " . $name);
-            return;
-        }
-
-        $dn = $info[0]['dn'];
-        $realname = $info[0]['cn'][0];
-        $email = $info[0]['mail'][0];
-        $site = $info[0]['nokiasite'][0];
-
-        $country = substr($site, 0, 2);
-        $timezone = getTimezoneByCountry($country);
-
-        if (!$dn) {
-            $this->login_error = "Could not find user " . $name;
-            error_log("HAGGARD ERROR [2.0]: Could not find user " . $name);
-            return;
-        }
-
-        if (ldap_bind($conn, $dn, $password)) {
-            $name = $GLOBALS['db']->escape($name);
-
-            $uid = $GLOBALS['db']->get_var("SELECT id FROM user WHERE email = '" . $email . "' OR email = '" . $name . "@nokia.com' OR noe_account = '" . $name . "'");
-            if (!$uid) {
-                $GLOBALS['db']->query("INSERT INTO user (name, email, noe_account, nokiasite, timezone, last_login) VALUES ('" . $realname . "', '" . $email . "', '" . $name . "', '" . $site . "', '" . $timezone . "', UTC_TIMESTAMP())");
-                $uid = $GLOBALS['db']->insert_id;
-            } else {
-                $GLOBALS['db']->query("UPDATE user SET name = '" . $realname . "', noe_account = '" . $name . "', email = '" . $email . "', nokiasite = '" . $site . "', last_login = UTC_TIMESTAMP() WHERE id = '" . $uid . "'");
+            $conn = ldap_connect($GLOBALS['ldap_domain_controllers'][0]);
+            if (!$conn || !ldap_bind($conn, $GLOBALS['ldap_admin'], $GLOBALS['ldap_password'])) {
+                $this->login_error = "Could not connect to LDAP";
+                error_log("HAGGARD ERROR [2.0] Problem connecting to LDAP server");
+                return;
             }
 
-            $_SESSION['logged_user'] = new User($uid);
-            $_SESSION['username'] = $realname;
-            $_SESSION['userid'] = $uid;
-            $_SESSION['board_name'] = $GLOBALS['board']->getBoardName();
-            $GLOBALS['logger']->login($_SESSION['logged_user']);
+            $res = ldap_search($conn, 'o=Nokia', '(uid=' . $name . ')', array("*"));
+            $info = ldap_get_entries($conn, $res);
+            if ($info['count'] == 0) {
+                $this->login_error = "Could not find user " . $name;
+                error_log("HAGGARD ERROR [2.0]: Cannot find LDAP user " . $name);
+                return;
+            }
+
+            $dn = $info[0]['dn'];
+            $realname = $info[0]['cn'][0];
+            $email = $info[0]['mail'][0];
+            $site = $info[0]['nokiasite'][0];
+
+            $country = substr($site, 0, 2);
+            $timezone = getTimezoneByCountry($country);
+
+            if (!$dn) {
+                $this->login_error = "Could not find user " . $name;
+                error_log("HAGGARD ERROR [2.0]: Could not find user " . $name);
+                return;
+            }
+
+            if (ldap_bind($conn, $dn, $password)) {
+                $name = $GLOBALS['db']->escape($name);
+
+                $uid = $GLOBALS['db']->get_var("SELECT id FROM user WHERE email = '" . $email . "' OR email = '" . $name . "@nokia.com' OR noe_account = '" . $name . "'");
+                if (!$uid) {
+                    $GLOBALS['db']->query("INSERT INTO user (name, email, noe_account, nokiasite, timezone, last_login) VALUES ('" . $realname . "', '" . $email . "', '" . $name . "', '" . $site . "', '" . $timezone . "', UTC_TIMESTAMP())");
+                    $uid = $GLOBALS['db']->insert_id;
+                } else {
+                    $GLOBALS['db']->query("UPDATE user SET name = '" . $realname . "', noe_account = '" . $name . "', email = '" . $email . "', nokiasite = '" . $site . "', last_login = UTC_TIMESTAMP() WHERE id = '" . $uid . "'");
+                }
+
+                $_SESSION['logged_user'] = new User($uid);
+                $_SESSION['username'] = $realname;
+                $_SESSION['userid'] = $uid;
+                $_SESSION['board_name'] = $GLOBALS['board']->getBoardName();
+                $GLOBALS['logger']->login($_SESSION['logged_user']);
+
+                header("Location: .");
+                return;
+            } else {
+                $this->login_error = "Wrong password";
+                error_log("HAGGARD ERROR [2.0]: User authentication failed for user " . $name);
+            }
+        }
+        else {
+
+            $realname = '';
+            $email = '';
+
+            $name = $GLOBALS['db']->escape($name);
+            $password = $GLOBALS['db']->escape($password);
+            $password .= $GLOBALS['password_salt'];
+            $password = sha1($password);
+            // Security can be enhanced even furhter with this line
+            //$password = substr($password, 25) . substr($password, 0, 25);
+            $uid = $GLOBALS['db']->get_var("SELECT id FROM user WHERE name='$name' AND password='$password'");
+
+            if ($uid) {
+                $GLOBALS['db']->query("UPDATE user SET last_login=UTC_TIMESTAMP() WHERE id='$uid'");
+
+                $_SESSION['logged_user'] = new User($uid);
+                $_SESSION['username'] = $realname;
+                $_SESSION['userid'] = $uid;
+                $_SESSION['board_name'] = $GLOBALS['board']->getBoardName();
+                $GLOBALS['logger']->login($_SESSION['logged_user']);
+            }
+            else {
+                $this->login_error = "Could not find user " . $name;
+                error_log("HAGGARD ERROR [2.0]: Could not find user " . $name);
+                //$this->login_error = "Wrong password";
+                //error_log("HAGGARD ERROR [2.0]: User authentication failed for user " . $name);
+                return;
+            }
 
             header("Location: .");
-            return;
-        } else {
-            $this->login_error = "Wrong password";
-            error_log("HAGGARD ERROR [2.0]: User authentication failed for user " . $name);
         }
     }
 
@@ -240,12 +275,12 @@ class PageGen {
 
 //        loadJSFile("https://getfirebug.com/firebug-lite.js"></script>';
         /* Common stylesheets for all pages */
+        echo '<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />' . PHP_EOL;
         echo '<link rel="stylesheet" href="./css/main.min.css" type="text/css">' . PHP_EOL;
-        echo '<link rel="stylesheet" href="./3rdparty/jquery-ui/css/custom-theme/jquery-ui-1.10.3.custom.min.css" type="text/css">' . PHP_EOL;
-        echo '<link rel="stylesheet" href="./3rdparty/jquery-farbtastic/farbtastic.min.css" type="text/css">' . PHP_EOL;
+        //echo '<link rel="stylesheet" href="./3rdparty/jquery-farbtastic/farbtastic.min.css" type="text/css">' . PHP_EOL;
         echo '<link rel="stylesheet" href="./3rdparty/jqplot/jquery.jqplot.css" type="text/css">' . PHP_EOL;
-        echo '<link rel="stylesheet" href="./3rdparty/jquery-qtip/jquery.qtip.min.css" type="text/css">' . PHP_EOL;
-        echo '<link rel="stylesheet" href="./3rdparty/jquery-tablesorter/tablesorter.min.css" type="text/css">' . PHP_EOL;
+        echo '<link rel="stylesheet" href="//qtip2.com/v/2.2.0/basic/jquery.qtip.min.css" />' . PHP_EOL;
+        //echo '<link rel="stylesheet" href="./3rdparty/jquery-tablesorter/jquery.tablesorter.min.css" type="text/css">' . PHP_EOL;
     }
 
     /* Generates content from views */
@@ -290,16 +325,24 @@ class PageGen {
 
     private function loadJS() {
         /* Common javascripts for all pages */
-        $this->loadJSFile("./3rdparty/jquery/jquery-1.10.2.min.js");
-        $this->loadJSFile("./3rdparty/jquery/jquery-migrate-1.2.1.min.js");
-        $this->loadJSFile("./3rdparty/jquery-cookie/jquery.cookie.js");
-        $this->loadJSFile("./3rdparty/jquery-dragsort/jquery.dragsort-0.5.1.min.js");
-        $this->loadJSFile("./3rdparty/jquery-ui/js/jquery-ui-1.10.3.custom.min.js");
-        $this->loadJSFile("./3rdparty/jquery-livequery/jquery.livequery.min.js");
-        $this->loadJSFile("./3rdparty/jquery-qtip/jquery.qtip.min.js");
+
+        // Load jQuery and jQuery UI from Google CDN
+        echo '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>';
+        echo '<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>';
+
+        // qTip2
+        echo '<script src="//qtip2.com/v/2.2.0/basic/jquery.qtip.min.js"></script>';
+        //$this->loadJSFile("./3rdparty/qTip1/1.0.0-rc3/jquery.qtip-1.0.0-rc3.min.js");
+
+        // jquery-migrate
+        echo '<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>';
+
+        $this->loadJSFile("./3rdparty/jquery-cookie/src/jquery.cookie.js");
+        $this->loadJSFile("./3rdparty/jquery-dragsort/jquery.dragsort-0.5.2.min.js");
+        $this->loadJSFile("./3rdparty/jquery-livequery/jquery.livequery.js");
         $this->loadJSFile("./3rdparty/jquery-placeholder/jquery.placeholder.min.js");
-        $this->loadJSFile("./3rdparty/jquery-farbtastic/farbtastic.min.js");
-        $this->loadJSFile("./3rdparty/jquery-tablesorter/jquery.tablesorter.min.js");
+        $this->loadJSFile("./3rdparty/jquery-farbtastic/src/farbtastic.js");
+        $this->loadJSFile("./3rdparty/jquery-tablesorter/js/jquery.tablesorter.min.js");
         $this->loadJSFile("./js/navigation.js");
         $this->loadJSFile("./js/login_handler.js");
         $this->loadJSFile("./js/ticket_handler.js");
@@ -309,6 +352,7 @@ class PageGen {
         $this->loadJSFile("./js/phase_settings.js");
         $this->loadJSFile("./js/auto_update.js");
         $this->loadJSFile("./js/page_scroll.js");
+
         if (isset($_SESSION['username'])) {
             $user = new User($_SESSION['userid']);
             if ($user->getPermission('move_ticket')) {
@@ -326,5 +370,3 @@ class PageGen {
     }
 
 }
-
-?>

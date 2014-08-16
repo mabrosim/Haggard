@@ -4,30 +4,18 @@
 [submodule "3rdparty/php-profiler"]
 	path = 3rdparty/php-profiler
 	url = https://github.com/jimrubenstein/php-profiler.git
-[submodule "3rdparty/jsmin-php"]
-	path = 3rdparty/jsmin-php
-	url = https://github.com/rgrove/jsmin-php.git
+[submodule "3rdparty/jquery-farbtastic"]
+	path = 3rdparty/jquery-farbtastic
+	url = https://github.com/mattfarina/farbtastic.git
+[submodule "3rdparty/jquery-placeholder"]
+	path = 3rdparty/jquery-placeholder
+	url = https://github.com/matoilic/jquery.placeholder.git
+[submodule "3rdparty/jquery-tablesorter"]
+	path = 3rdparty/jquery-tablesorter
+	url = https://github.com/Mottie/tablesorter.git
+[submodule "3rdparty/jquery-livequery"]
+	path = 3rdparty/jquery-livequery
+	url = https://github.com/brandonaaron/livequery.git
 [submodule "3rdparty/jquery-cookie"]
 	path = 3rdparty/jquery-cookie
 	url = https://github.com/carhartl/jquery-cookie.git
-[submodule "3rdparty/farbtastic"]
-	path = 3rdparty/farbtastic
-	url = https://github.com/mattfarina/farbtastic.git
-[submodule "3rdparty/livequery"]
-	path = 3rdparty/livequery
-	url = https://github.com/hazzik/livequery.git
-[submodule "3rdparty/jquery.placeholder"]
-	path = 3rdparty/jquery.placeholder
-	url = https://github.com/matoilic/jquery.placeholder.git
-[submodule "3rdparty/qTip1"]
-	path = 3rdparty/qTip1
-	url = https://github.com/Craga89/qTip1.git
-[submodule "3rdparty/tablesorter"]
-	path = 3rdparty/tablesorter
-	url = https://github.com/Mottie/tablesorter.git
-[submodule "3rdparty/jqueryui.com"]
-	path = 3rdparty/jqueryui.com
-	url = https://github.com/jquery/jqueryui.com.git
-[submodule "3rdparty/jquery"]
-	path = 3rdparty/jquery
-	url = https://github.com/jquery/jquery.git

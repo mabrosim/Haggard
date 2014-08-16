@@ -43,7 +43,7 @@ echo '<html>';
 echo '<head>';
 echo '<title>Haggard - Digital boards</title>';
 echo '<link rel="shortcut icon" type="image/x-icon" href="./haggard/favicon.ico" />';
-echo '<script type="text/javascript" src="./haggard/3rdparty/jquery/jquery-1.7.1.min.js"></script>' . PHP_EOL;
+echo '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>';
 echo '<script type="text/javascript" src="./jwplayer.js"></script>' . PHP_EOL;
 ?>
 
