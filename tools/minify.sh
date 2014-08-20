@@ -30,48 +30,26 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-source tools/utils.sh
+TOOLS="$(dirname $0)"
+source $TOOLS/utils.sh
 
-command_exists wget
-IS_WGET=$?
-if [ $IS_WGET -eq 1 ]; then
-    echo "Couldn't find wget, aborting."
-    exit 1;
-fi
+# Minify JS and CSS files using YUI compressor if Java is present.
+# Otherwise just link the min versions to full versions.
+# 1. parameter is file type css|js
+# 2. parameter is directory path
 
-command_exists unzip
-IS_UNZIP=$?
-if [ $IS_UNZIP -eq 1 ]; then
-    echo "Couldn't find unzip, aborting."
-    exit 1;
-fi
-
-echo "Fetching 3rdparties..."
-git submodule update --init --recursive
-
-if [ ! -e dragsort-0.5.2.zip ]; then
-    wget -O dragsort-0.5.2.zip "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=dragsort&DownloadId=887234&FileTime=130517762092170000&Build=20928"
-fi
-unzip -n -d 3rdparty/jquery-dragsort dragsort-0.5.2.zip
-
-# Get YUI compressor for minifying JS and CSS files
-if [ ! -f ./tools/$YUI ]; then
-    wget --no-check-certificate -O ./tools/$YUI https://github.com/yui/yuicompressor/releases/download/v$YUIVERSION/$YUI
-fi
-
-# HINT
-# git archive --remote=git://git.foo.com/project.git HEAD:path/to/directory filename
-# http://stackoverflow.com/questions/1125476/git-retrieve-a-single-file-from-a-repository
-
-#phplot
-#http://sourceforge.net/projects/phplot/files/latest/download
-
-#jqplot
-#https://bitbucket.org/cleonello/jqplot/wiki/Home
-
-#PHPExcel
-#https://phpexcel.codeplex.com/SourceControl/latest#
-
-sudo ./tools/init_wwwroot.sh
-
-echo "Done!"
+function minify {
+    if command_exists java; then
+        echo "Minifying $1 files ..."
+        regexp=".$1$:.min.$1"
+        java -jar $TOOLS/$YUI --type $1 -o $regexp $2/*.$1
+    else
+        echo "No Java found, just copy & rename JS and CSS files..."
+        for f in $2/*.$1; do
+            target=${f%.*}.min.${f##*.}
+            if [ ! -e $target ]; then
+                cp $f $target
+            fi
+        done
+    fi
+}

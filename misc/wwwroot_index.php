@@ -44,7 +44,7 @@ echo '<head>';
 echo '<title>Haggard - Digital boards</title>';
 echo '<link rel="shortcut icon" type="image/x-icon" href="./haggard/favicon.ico" />';
 echo '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>';
-echo '<script type="text/javascript" src="./jwplayer.js"></script>' . PHP_EOL;
+//echo '<script type="text/javascript" src="./jwplayer.js"></script>' . PHP_EOL;
 ?>
 
 <script>
@@ -65,18 +65,19 @@ $(document).ready(function() {
 </script>
 
 <style>
+/*
 @font-face
 {
-    font-family: NokiaPureTextRegular;
-    src: url('./haggard/font/NokiaPureHeadline_Regular.ttf');
+    font-family: YourFontFamilyName;
+    src: url('./haggard/font/YourFont.ttf');
 }
-
-body 
+*/
+body
 {
-    font-family: NokiaPureTextRegular, Arial;
-    font-size:16px; 
-    padding:0px;  
-    margin: auto; 
+    font-family: Arial;
+    font-size:16px;
+    padding:0px;
+    margin: auto;
     color: black;
     background-color: rgb(18,65,145);
     background-image: url('bg2.png');
@@ -84,17 +85,17 @@ body
     background-position: center top;
 }
 
-a:visited, a, a:active 
-{ 
-    color: black; 
-} 
+a:visited, a, a:active
+{
+    color: black;
+}
 
 a:hover
 {
     color: rgb(18, 65, 145);
 }
 
-h1 
+h1
 {
     font-size: 22px;
     color: rgb(18, 65, 100);
@@ -113,12 +114,12 @@ img { border: 0 }
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
     border-radius: 6px;
-    -webkit-box-shadow: 0 6px 6px #333; 
-    -moz-box-shadow: 0 6px 6px #333; 
+    -webkit-box-shadow: 0 6px 6px #333;
+    -moz-box-shadow: 0 6px 6px #333;
     box-shadow: 0 6px 6px #333;
     margin-bottom: 50px;
     margin-left: auto;
-    margin-right: auto; 
+    margin-right: auto;
 }
 
 </style>
@@ -128,7 +129,7 @@ echo '<body>';
 
 echo '<div id="content">';
 echo '<h1 style="font-size: 36px">Welcome to Haggard!</h1>';
-echo '<p>Haggard is digital board to follow your team\'s tasks and activities. To try out the board, please navigate to <a href="http://haggard.IP/demo_board">Demo Board</a> and log in with Guest!</p>';
+echo '<p>Haggard is digital board to follow your team\'s tasks and activities. To try out the board, please navigate to <a href="./demo">Demo Board</a> and log in with Guest!</p>';
 echo '<p>More information can be found from Haggard wiki</a>. Also check out the demo video below <a href="./haggard.mpg">(Download video).</a></p>';
 echo '<div id="video_container">';
 echo '<div id="video" style="display:none";>';
@@ -141,7 +142,7 @@ $all_month_stat = $GLOBALS['db']->get_var("SELECT COUNT(id) FROM log WHERE DATE(
 
 echo '<a name="support"></a>';
 echo '<h1>Made in Oulu with Passion!</h1>';
-echo '<p>Haggard is developed as hobby project by Heikki Hellgren & Maxim Abrosimov.<br>';
+echo '<p>Haggard was developed as hobby project by Heikki Hellgren & Maxim Abrosimov.<br>';
 echo ' your thanks will generate good karma for the tool creators wherever they are. </p>';
 
 $boards = $GLOBALS['db']->get_var("SELECT COUNT(id) FROM board");
