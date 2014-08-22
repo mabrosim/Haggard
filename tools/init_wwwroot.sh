@@ -38,6 +38,8 @@ this_dir=$(dirname $0)
 repo="$this_dir/.."
 misc="$this_dir/../misc"
 
+CP="sudo cp -r --preserve=timestamps"
+
 source $this_dir/minify.sh
 source $this_dir/utils.sh
 
@@ -50,6 +52,10 @@ function print_info() {
 }
 
 function init_dir() {
+# 1. param is directory name to be created
+# 2. param, if set
+#    the first parameter is used as filetype either js or css,
+#    and the dir content is minified before move.
     d=$hdir/$1
     echo "Initializing $d"
     if [ ! -e $d ]; then
@@ -57,22 +63,25 @@ function init_dir() {
     fi
 
     if [ ! -f $2 ]; then
+        $CP $repo/$1/index.php $d
         minify $1 $repo/$1
-        sudo cp $repo/$1/index.php $d
-        sudo mv $repo/$1/*$2* $d
+        for i in $repo/$1/*.min.$1; do
+            a=$(basename $i .min.$1);
+            sudo mv $i $d/$a.$1;
+        done
     else
-        sudo cp -R $repo/$1/* $d
+        $CP $repo/$1/* $d
     fi
 }
 
 function init_root() {
-    sudo cp -f $misc/wwwroot_index.php $wwwroot/index.php
-    sudo cp -f $misc/board_index.php $hdir/index.php
-    sudo cp -f $misc/404.php $hdir/
-    sudo cp -f $misc/404.php $wwwroot/
-    sudo cp -f $misc/maintenance.php $hdir/
-    sudo cp -f $misc/maintenance.php $wwwroot/
-    sudo cp -f $this_dir/manage.sh $wwwroot/
+    $CP $misc/wwwroot_index.php $wwwroot/index.php
+    $CP $misc/board_index.php $hdir/index.php
+    $CP $misc/404.php $hdir/
+    $CP $misc/404.php $wwwroot/
+    $CP $misc/maintenance.php $hdir/
+    $CP $misc/maintenance.php $wwwroot/
+    $CP $this_dir/manage.sh $wwwroot/
     sudo ln -sf $hdir/img/favicon.ico $hdir/
     sudo ln -sf $hdir/img/favicon.ico $wwwroot/
     sudo ln -sf $hdir/img/bg2.png $wwwroot/
@@ -97,8 +106,8 @@ fi
 init_dir "config"
 init_dir "img"
 init_dir "lib"
-init_dir "css" ".min."
-init_dir "js" ".min."
+init_dir "css" 1
+init_dir "js" 1
 init_root
 
 init_3rdparty

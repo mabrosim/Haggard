@@ -47,8 +47,8 @@ echo '<head>' . PHP_EOL;
 echo '<title>Haggard Agile Board installation</title>' . PHP_EOL;
 echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>' . PHP_EOL;
 
-echo '<link rel="stylesheet" href="./css/install.min.css" type="text/css">' . PHP_EOL;
-echo '<link rel="stylesheet" href="./css/main.min.css" type="text/css">' . PHP_EOL;
+echo '<link rel="stylesheet" href="./css/install.css" type="text/css">' . PHP_EOL;
+echo '<link rel="stylesheet" href="./css/main.css" type="text/css">' . PHP_EOL;
 
 echo '<link rel="stylesheet" href="./3rdparty/jquery-ui/themes/custom-theme/jquery-ui-1.8.17.custom.css" type="text/css">' . PHP_EOL;
 echo '</head>';

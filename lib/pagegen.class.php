@@ -276,7 +276,7 @@ class PageGen {
 //        loadJSFile("https://getfirebug.com/firebug-lite.js"></script>';
         /* Common stylesheets for all pages */
         echo '<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />' . PHP_EOL;
-        echo '<link rel="stylesheet" href="./css/main.min.css" type="text/css">' . PHP_EOL;
+        echo '<link rel="stylesheet" href="./css/main.css" type="text/css">' . PHP_EOL;
         //echo '<link rel="stylesheet" href="./3rdparty/jquery-farbtastic/farbtastic.min.css" type="text/css">' . PHP_EOL;
         echo '<link rel="stylesheet" href="./3rdparty/jqplot/jquery.jqplot.css" type="text/css">' . PHP_EOL;
         echo '<link rel="stylesheet" href="//qtip2.com/v/2.2.0/basic/jquery.qtip.min.css" />' . PHP_EOL;
