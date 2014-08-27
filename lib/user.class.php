@@ -195,7 +195,8 @@ class User {
             }
 
             $GLOBALS['db']->escape($key);
-            $GLOBALS['db']->query("INSERT INTO personal_setting (user_id, setting, value) VALUES ('" . $this->id . "', '" . $key . "', '" . $value . "')");
+            if (!empty($this->id))
+                $GLOBALS['db']->query("INSERT INTO personal_setting (user_id, setting, value) VALUES ('" . $this->id . "', '" . $key . "', '" . $value . "')");
 
             return $value;
         }

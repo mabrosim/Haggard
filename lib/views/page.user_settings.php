@@ -46,7 +46,7 @@ echo '<div class="add_user"><button>Add new user</button></div>';
 echo '<h2>Active users</h2>';
 echo '<table border="0" class="settings_table">';
 
-echo '<tr><th>Name</th><th>Displayed name</th><th>E-mail</th><th>Last login</th><th>Nokia site</th><th>Timezone</th>';
+echo '<tr><th>Name</th><th>Displayed name</th><th>E-mail</th><th>Last login</th><th>Location</th><th>Timezone</th>';
 echo '<th colspan="3">Actions</th></tr>';
 
 $users = $GLOBALS['board']->getUsers(1);

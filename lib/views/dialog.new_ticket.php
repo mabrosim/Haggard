@@ -59,17 +59,17 @@ echo '<tr><td style="text-align:right;">Responsible</td><td style="text-align:le
 
 echo '<option value="0">No responsible</option>';
 $users = $GLOBALS['board']->getUsers();
-
-foreach ($users as $user) {
-    if (ucwords(strtolower($user->getName())) == $_SESSION['username']) {
-        echo '<option selected value="' . $user->getId() . '">' . $user->getName() . '</option>';
-    } else {
-        echo '<option value="' . $user->getId() . '">' . $user->getName() . '</option>';
+if (count($users) > 0) {
+    foreach ($users as $user) {
+        if (ucwords(strtolower($user->getName())) == $_SESSION['username']) {
+            echo '<option selected value="' . $user->getId() . '">' . $user->getName() . '</option>';
+        } else {
+            echo '<option value="' . $user->getId() . '">' . $user->getName() . '</option>';
+        }
     }
 }
 
 $components = $GLOBALS['board']->getComponents();
-
 if (count($components) > 0) {
     echo '<tr><td style="text-align:right;">Component</td><td style="text-align:left;"><select name="comp">';
     echo '<option value="0"></option>';
