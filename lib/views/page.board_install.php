@@ -31,9 +31,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 $args = filter_input_array(INPUT_SERVER);
-$url = "https://" . $args["SERVER_NAME"] . $args["REQUEST_URI"];
-if ($url == "https://haggard/haggard/") {
 
+//TODO deny access via .htaccess config
+if ($args["REQUEST_URI"] == "/haggard/") {
     include 'page.404.php';
     return;
 }
@@ -50,7 +50,7 @@ echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>' . PH
 echo '<link rel="stylesheet" href="./css/install.css" type="text/css">' . PHP_EOL;
 echo '<link rel="stylesheet" href="./css/main.css" type="text/css">' . PHP_EOL;
 
-echo '<link rel="stylesheet" href="./3rdparty/jquery-ui/themes/custom-theme/jquery-ui-1.8.17.custom.css" type="text/css">' . PHP_EOL;
+echo '<link rel="stylesheet" href="' . $GLOBALS['JQUERY_UI_CSS'] . '" type="text/css">' . PHP_EOL;
 echo '</head>';
 
 echo '<body>';
@@ -60,6 +60,7 @@ echo '<h1>Installation</h1>';
 
 echo '<div id="install_form">';
 echo '<h2>Welcome to Haggard Agile Board!</h2>';
+
 if (isset($GLOBALS['install_error'])) {
     echo '<p style="color: red">Error: ' . $GLOBALS['install_error'] . '</p>';
 }
@@ -75,23 +76,23 @@ echo '<h2>Configuration</h2>';
 echo '<form id="installation" action="index.php" method="post">';
 
 echo '<div id="control">';
-echo '<label for="name">Board name </label>';
+echo '<label>Board name </label>';
 echo '<input type="text" name="name" id="name"/>';
 echo '</div>';
 
-echo '<div id="control">';
-echo '<label for="email">Board email </label>';
 $prefix = str_replace("/", "", $args["REQUEST_URI"]);
+echo '<div id="control">';
+echo '<label>Board email </label>';
 echo '<input type="text" name="email" id="email" value="' . $prefix . '@' . $args["SERVER_NAME"] . '"/>';
 echo '</div>';
 
 echo '<div id="control">';
-echo '<label for="url">Board URL </label>';
+echo '<label>Board URL </label>';
 echo '<input type="text" name="url" id="url" value="https://' . $args["SERVER_NAME"] . $args["REQUEST_URI"] . '"/>';
 echo '</div>';
 
 echo '<div id="control">';
-echo '<label for="timezone">Board timezone </label>';
+echo '<label>Board timezone </label>';
 echo '<select name="timezone" id="timezone" style="background-color: white;">';
 $timezones = DateTimeZone::listAbbreviations();
 
@@ -111,14 +112,13 @@ echo '</div>';
 echo '<p style="text-align: center;"><input class="form_button" type="submit" value="Create"><input type="reset" value="Reset" class="form_button"></p>';
 echo '</form>';
 echo '</div>';
-
 echo '</div>';
 
 require_once './lib/views/footer.php';
 
-echo '<script type="text/javascript" src="./3rdparty/jquery/jquery-1.8.2.min.js"></script>' . PHP_EOL;
+echo '<script type="text/javascript" src="' . $GLOBALS['JQUERY_JS'] . '"></script>' . PHP_EOL;
+echo '<script type="text/javascript" src="' . $GLOBALS['JQUERY_UI_JS'] . '" charset="UTF-8"></script>' . PHP_EOL;
 echo '<script type="text/javascript" src="./js/navigation.js" charset="UTF-8"></script>' . PHP_EOL;
-echo '<script type="text/javascript" src="./3rdparty/jquery-ui/jquery-ui-1.8.17.custom.min.js" charset="UTF-8"></script>' . PHP_EOL;
+
 echo '</body>';
 echo '</html>';
-?>
