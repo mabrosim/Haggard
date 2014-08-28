@@ -43,22 +43,10 @@ if (!isset($func)) {
 $args = filter_input_array(INPUT_POST);
 
 if ($func == "board_settings") {
-    $wip = $GLOBALS['db']->escape($args['use_wip']);
-    $cycles = $GLOBALS['db']->escape($args['use_cycles']);
-    $linking = $GLOBALS['db']->escape($args['use_linking']);
-    $statistics = $GLOBALS['db']->escape($args['use_statistics']);
-    $logging = $GLOBALS['db']->escape($args['use_logging']);
-    $priorities = $GLOBALS['db']->escape($args['use_priorities']);
-    $ticket_help = $GLOBALS['db']->escape($args['show_ticket_help']);
-    $firstname = $GLOBALS['db']->escape($args['use_firstname']);
-    $private_b = $GLOBALS['db']->escape($args['private_board']);
-    $send_email = $GLOBALS['db']->escape($args['send_email']);
-
     $color1 = $GLOBALS['db']->escape($args['color1']);
     $color2 = $GLOBALS['db']->escape($args['color2']);
     $color3 = $GLOBALS['db']->escape($args['color3']);
     $color4 = $GLOBALS['db']->escape($args['color4']);
-
     if (!$color1) {
         $color1 = "#9e9cd3";
     }
@@ -76,7 +64,6 @@ if ($func == "board_settings") {
     $ticket_type2 = $GLOBALS['db']->escape($args['ticket_type2']);
     $ticket_type3 = $GLOBALS['db']->escape($args['ticket_type3']);
     $ticket_type4 = $GLOBALS['db']->escape($args['ticket_type4']);
-
     if (!$ticket_type1) {
         $ticket_type1 = "Backlog";
     }
@@ -90,52 +77,71 @@ if ($func == "board_settings") {
         $ticket_type4 = "Study";
     }
 
-    $use_wip = 0;
-    $use_cycles = 0;
-    $use_linking = 0;
-    $use_statistics = 0;
-    $use_logging = 0;
-    $use_priorities = 0;
-    $show_ticket_help = 0;
-    $use_firstname = 0;
-    $setting_private_board = 0;
-    $setting_send_email = 0;
-
-    if (isset($wip) && $wip != "") {
+    if (empty($args['use_wip'])) {
+        $use_wip = 0;
+    }
+    else {
         $use_wip = 1;
     }
-    if (isset($cycles) && $cycles != "") {
+    if (empty($args['use_cycles'])) {
+        $use_cycles = 0;
+    }
+    else {
         $use_cycles = 1;
     }
-    if (isset($linking) && $linking != "") {
+    if (empty($args['use_linking'])) {
+        $use_linking = 0;
+    }
+    else {
         $use_linking = 1;
     }
-    if (isset($statistics) && $statistics != "") {
+    if (empty($args['use_statistics'])) {
+        $use_statistics = 0;
+    }
+    else {
         $use_statistics = 1;
     }
-    if (isset($logging) && $logging != "") {
+    if (empty($args['use_logging'])) {
+        $use_logging = 0;
+    }
+    else {
         $use_logging = 1;
     }
-    if (isset($priorities) && $priorities != "") {
+    if (empty($args['use_priorities'])) {
+        $use_priorities = 0;
+    }
+    else {
         $use_priorities = 1;
     }
-    if (isset($ticket_help) && $ticket_help != "") {
+    if (empty($args['show_ticket_help'])) {
+        $show_ticket_help = 0;
+    }
+    else {
         $show_ticket_help = 1;
     }
-    if (isset($firstname) && $firstname != "") {
+    if (empty($args['use_firstname'])) {
+        $use_firstname = 0;
+    }
+    else {
         $use_firstname = 1;
     }
-    if (isset($private_b) && $private_b != "") {
-        $setting_private_board = 1;
+    if (empty($args['private_board'])) {
+        $private_board = 0;
     }
-    if (isset($send_email) && $send_email != "") {
-        $setting_send_email = 1;
+    else {
+        $private_board = 1;
+    }
+    if (empty($args['send_email'])) {
+        $send_email = 0;
+    }
+    else {
+        $send_email = 1;
     }
 
     $GLOBALS['board']->setSettingValue('BOARD_TEAM', $args['board_team']);
     $GLOBALS['board']->setSettingValue('BOARD_TEAM_EMAIL', $args['board_team_email']);
-    $GLOBALS['board']->setSettingValue('PRIVATE_BOARD', $setting_private_board);
-    $GLOBALS['board']->setSettingValue('SEND_EMAIL', $setting_send_email);
+    $GLOBALS['board']->setSettingValue('PRIVATE_BOARD', $private_board);
+    $GLOBALS['board']->setSettingValue('SEND_EMAIL', $send_email);
     $GLOBALS['board']->setSettingValue('USE_WIP', $use_wip);
     $GLOBALS['board']->setSettingValue('USE_CYCLES', $use_cycles);
     $GLOBALS['board']->setSettingValue('USE_LINKING', $use_linking);
@@ -493,4 +499,4 @@ if ($func == "board_settings") {
 } else if ($args['func'] == "delete_all_tickets") {
     $GLOBALS['db']->query("UPDATE ticket SET deleted = '1' WHERE board_id = '" . $GLOBALS['board']->getBoardId() . "'");
 }
-?>
+

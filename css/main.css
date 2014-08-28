@@ -232,7 +232,7 @@ button
     font-size: 17px;
     font-family: arial,sans-serif;
     margin-left: 0px;
-    background-image: url(../3rdparty/jquery-ui/css/custom-theme/images/ui-bg_glass_75_f1f1f1_1x400.png);
+    background-image: url(../img/ui-bg_glass_75_f1f1f1_1x400.png);
     background-repeat: repeat-x;
     background-position: 50% 50%;
     border: 1px solid #ddd;
@@ -1206,7 +1206,7 @@ a.ticket_unsubscribe
     margin-bottom: 0px;
     width: 220px;
     background-color: #f1f1f1;
-    background-image: url(../img/search.png), url(../3rdparty/jquery-ui/css/custom-theme/images/ui-bg_glass_75_f1f1f1_1x400.png);
+    background-image: url(../img/search.png), url(../img/ui-bg_glass_75_f1f1f1_1x400.png);
     background-position: 97% 50%, 50% 50%;
     background-repeat: no-repeat, repeat-x;
 }

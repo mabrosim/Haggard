@@ -34,14 +34,10 @@ echo '<div id="footer">';
 if (isset($GLOBALS['cur_user'])) {
     echo '<p>You are on timezone ' . $GLOBALS['cur_user']->getTimezone() . ' (' . date('d-m-Y H:i:s') . ')</p>';
 }
-echo '<p>Haggard Agile Board v2.1 (C) Microsoft Mobile 2014</p>';
-echo '<p><a href="http://wiki/Haggard/" target="_blank">Haggard Wiki</a> - ';
-echo '<a href="https://wiki/Haggard/SupportHaggard" target="_blank">Support Haggard</a> - ';
-echo '<a href="https://www.yammer.com" target="_blank">Yammer group</a></p>';
 
-echo '<div style="margin: 0; margin-top:10px; text-align: center;">';
-echo '<a href="http://www.microsoft.com" target="_blank"><img src="./img/MS_corp_logo2.jpg"></a>';
+echo '<div style="margin: 10px 0 0;text-align: center;">';
+echo '<p><a href="https://github.com/mabrosim/Haggard" target="_blank">Haggard Agile Board v3.0</a></p>';
+echo '<p><a href="https://github.com/mabrosim/Haggard" target="_blank"><img src="./img/favicon.ico"></a></p>';
 echo '</div>';
 
 echo '</div>';
-?>

@@ -174,7 +174,7 @@ class PageGen {
 
             if (!$dn) {
                 $this->login_error = "Could not find user " . $name;
-                error_log("HAGGARD ERROR [2.0]: Could not find user " . $name);
+                error_log("HAGGARD ERROR: Could not find user " . $name);
                 return;
             }
 
@@ -199,7 +199,7 @@ class PageGen {
                 return;
             } else {
                 $this->login_error = "Wrong password";
-                error_log("HAGGARD ERROR [2.0]: User authentication failed for user " . $name);
+                error_log("HAGGARD ERROR: User authentication failed for user " . $name);
             }
         }
         else {
@@ -226,9 +226,9 @@ class PageGen {
             }
             else {
                 $this->login_error = "Could not find user " . $name;
-                error_log("HAGGARD ERROR [2.0]: Could not find user " . $name);
+                error_log("HAGGARD ERROR: Could not find user " . $name);
                 //$this->login_error = "Wrong password";
-                //error_log("HAGGARD ERROR [2.0]: User authentication failed for user " . $name);
+                //error_log("HAGGARD ERROR: User authentication failed for user " . $name);
                 return;
             }
 
@@ -273,13 +273,13 @@ class PageGen {
         /* Favicon */
         echo '<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />';
 
-//        loadJSFile("https://getfirebug.com/firebug-lite.js"></script>';
         /* Common stylesheets for all pages */
-        echo '<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css" />' . PHP_EOL;
+        echo '<link rel="stylesheet" href=' . $GLOBALS['JQUERY_UI_CSS'] . ' />' . PHP_EOL;
+        echo '<link rel="stylesheet" href=' . $GLOBALS['JQUERY_QTIP_CSS'] . ' />' . PHP_EOL;
+
         echo '<link rel="stylesheet" href="./css/main.css" type="text/css">' . PHP_EOL;
         //echo '<link rel="stylesheet" href="./3rdparty/jquery-farbtastic/farbtastic.min.css" type="text/css">' . PHP_EOL;
-        echo '<link rel="stylesheet" href="./3rdparty/jqplot/jquery.jqplot.css" type="text/css">' . PHP_EOL;
-        echo '<link rel="stylesheet" href="//qtip2.com/v/2.2.0/basic/jquery.qtip.min.css" />' . PHP_EOL;
+        echo '<link rel="stylesheet" href="./3rdparty/jqplot/jquery.jqplot.min.css" type="text/css">' . PHP_EOL;
         //echo '<link rel="stylesheet" href="./3rdparty/jquery-tablesorter/jquery.tablesorter.min.css" type="text/css">' . PHP_EOL;
     }
 
@@ -326,16 +326,11 @@ class PageGen {
     private function loadJS() {
         /* Common javascripts for all pages */
 
-        // Load jQuery and jQuery UI from Google CDN
-        echo '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>';
-        echo '<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>';
-
-        // qTip2
-        echo '<script src="//qtip2.com/v/2.2.0/basic/jquery.qtip.min.js"></script>';
-        //$this->loadJSFile("./3rdparty/qTip1/1.0.0-rc3/jquery.qtip-1.0.0-rc3.min.js");
-
-        // jquery-migrate
-        echo '<script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>';
+        // Load external js libraries
+        echo '<script src='.$GLOBALS['JQUERY_JS'].'></script>';
+        echo '<script src='.$GLOBALS['JQUERY_UI_JS'].'></script>';
+        echo '<script src='.$GLOBALS['JQUERY_QTIP_JS'].'></script>';
+        echo '<script src='.$GLOBALS['JQUERY_MIGRATE_JS'].'></script>';
 
         $this->loadJSFile("./3rdparty/jquery-cookie/src/jquery.cookie.js");
         $this->loadJSFile("./3rdparty/jquery-dragsort/jquery.dragsort-0.5.2.min.js");
@@ -343,6 +338,7 @@ class PageGen {
         $this->loadJSFile("./3rdparty/jquery-placeholder/jquery.placeholder.min.js");
         $this->loadJSFile("./3rdparty/jquery-farbtastic/src/farbtastic.js");
         $this->loadJSFile("./3rdparty/jquery-tablesorter/js/jquery.tablesorter.min.js");
+
         $this->loadJSFile("./js/navigation.js");
         $this->loadJSFile("./js/login_handler.js");
         $this->loadJSFile("./js/ticket_handler.js");

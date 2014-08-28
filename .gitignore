@@ -4,9 +4,10 @@
 *.jar
 config/board.config.php
 config/database.config.php
-3rdparty/jquery-dragsort
+3rdparty/
 dragsort-*.zip
 tools/__pycache__/
 favicon.ico
 css/*.min.css
 js/*.min.js
+*.php

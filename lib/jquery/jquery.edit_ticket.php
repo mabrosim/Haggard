@@ -150,7 +150,7 @@ $GLOBALS['db']->query("UPDATE ticket SET data = '" . $title . "',
 
 $subscribers = $GLOBALS['db']->get_results("SELECT user_id FROM ticket_subscription WHERE ticket_id = '" . $id . "'");
 
-if ($resp != $_SESSION['userid']) {
+if (!empty($resp) && $resp != $_SESSION['userid']) {
     $GLOBALS['db']->query("INSERT INTO user_notification (board_id, user_id, title, type, link, status, time) VALUES ('" . $old_ticket->getBoard()->getBoardId() . "', '" . $resp . "', '" . $_SESSION['username'] . " modified your ticket " . $title . "', 'page', 'page.board.php&ticket_id=" . $id . "', 'unread', UTC_TIMESTAMP())");
 }
 

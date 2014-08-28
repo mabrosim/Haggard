@@ -61,10 +61,6 @@ if (isset($GLOBALS['cur_user']) && $GLOBALS['cur_user']->hasAccessToBoard()) {
 echo '<li class="menu_item" id="about"><a class="sub_nav_but">About</a>';
 echo '</li>';
 
-/* YAMMER */
-echo '<li class="menu_item" id="yammer"><a class="sub_nav_but">Join Yammer</a>';
-echo '</li>';
-
 /* LOGIN HANDLING */
 if (!isset($_SESSION['username'])) {
     echo '<li style="float:right" id="login"><a class="login menu_item">Log in</a></li>';

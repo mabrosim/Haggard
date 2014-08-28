@@ -41,6 +41,7 @@ $(document).ready(function()
 {
     $('input, textarea').placeholder();
 
+    const url_wiki = "https://github.com/mabrosim/Haggard/wiki";
     var timeout = 500;
     var closetimer = 0;
     var menuitem = 0;
@@ -133,13 +134,7 @@ $(document).ready(function()
     $('#about').on('click', function(e)
     {
         e.preventDefault();
-        window.open("http://wikis/Haggard/WebHome");
-    });
-
-    $('#yammer').on('click', function(e)
-    {
-        e.preventDefault();
-        window.open("https://www.yammer.com");
+        window.open(url_wiki);
     });
 
     $('#logout').on('click', function(e) {

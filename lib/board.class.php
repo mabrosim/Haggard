@@ -43,11 +43,11 @@ class Board {
     private $created = 0;
     private $board_settings = array("DB_VERSION" => "1",
         "USE_WIP" => "0",
-        "USE_CYCLES" => "1",
+        "USE_CYCLES" => "0",
         "USE_LOGGING" => "1",
         "USE_LINKING" => "1",
         "USE_STATISTICS" => "1",
-        "USE_PRIORITIES" => "1",
+        "USE_PRIORITIES" => "0",
         "TICKET_COLOR1" => "#9e9cd3",
         "TICKET_COLOR2" => "#ffdc00",
         "TICKET_COLOR3" => "#ff9800",

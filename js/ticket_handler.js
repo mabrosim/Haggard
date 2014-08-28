@@ -79,7 +79,7 @@ $(document).ready(function()
 
                     $('[name=reference_id]').qtip({
                         content: {
-                            text: 'Mzilla - M:id<br/>Accept360 - A:id<br/>PCPE - P:id<br/>Coverity - C:id<br/>Nzilla - N:id<br/>or URL'
+                            text: 'Mzilla - M:id<br/>Coverity - C:id<br/>or URL'
                         },
                         style: {
                             classes: 'ui-tooltip-tipsy'
@@ -191,7 +191,7 @@ $(document).ready(function()
 
                             $('[name=reference_id]').qtip({
                                 content: {
-                                    text: 'Mzilla - M:id<br/>Accept360 - A:id<br/>PCPE - P:id<br/>Coverity - C:id<br/>Nzilla - N:id<br/>or URL'
+                                    text: 'Mzilla - M:id<br/>Coverity - C:id<br/>or URL'
                                 },
                                 style: {
                                     classes: 'ui-tooltip-light ui-tooltip-shadow ui-tooltip-bootstrap'
