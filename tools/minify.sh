@@ -30,8 +30,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-TOOLS="$(dirname $0)"
-source $TOOLS/utils.sh
+source $(dirname $0)/utils.sh
 
 # Minify JS and CSS files using YUI compressor if Java is present.
 # Otherwise just link the min versions to full versions.
@@ -42,7 +41,7 @@ function minify {
     if command_exists java; then
         echo "Minifying $1 files ..."
         regexp=".$1$:.min.$1"
-        java -jar $TOOLS/$YUI --type $1 -o $regexp $2/*.$1
+        java -jar $(dirname $0)/$YUI --type $1 -o $regexp $2/*.$1
     else
         echo "No Java found, just copy & rename JS and CSS files..."
         for f in $2/*.$1; do

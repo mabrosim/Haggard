@@ -19,3 +19,6 @@
 [submodule "3rdparty/jquery-cookie"]
 	path = 3rdparty/jquery-cookie
 	url = https://github.com/carhartl/jquery-cookie.git
+[submodule "3rdparty/jquery-plot"]
+	path = 3rdparty/jquery-plot
+	url = https://github.com/vpassapera/jqPlot.git

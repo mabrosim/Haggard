@@ -30,25 +30,22 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-wwwroot="/var/www/html"
-haggard_dir="haggard"
-hdir=$wwwroot/$haggard_dir
-webuser="www-data"
+source $(dirname $0)/utils.sh
+source $(dirname $0)/minify.sh
+source $(dirname $0)/init_3rdparty.sh
+
 this_dir=$(dirname $0)
 repo="$this_dir/.."
 misc="$this_dir/../misc"
 
 CP="sudo cp -r --preserve=timestamps"
 
-source $this_dir/minify.sh
-source $this_dir/utils.sh
-
 function print_info() {
     echo ""
     echo "${0##*/} script will initialize apache www root directory for Haggard"
     echo "it also copies original haggard board files into www root"
     echo "any new board will be symbolically linked to the haggard board parent"
-    echo "assuming wwwroot path is $wwwroot"
+    echo "assuming WWWROOT path is $WWWROOT"
 }
 
 function init_dir() {
@@ -56,7 +53,7 @@ function init_dir() {
 # 2. param, if set
 #    the first parameter is used as filetype either js or css,
 #    and the dir content is minified before move.
-    d=$hdir/$1
+    d=$HDIR/$1
     echo "Initializing $d"
     if [ ! -e $d ]; then
         sudo mkdir "$d"
@@ -75,33 +72,23 @@ function init_dir() {
 }
 
 function init_root() {
-    $CP $misc/wwwroot_index.php $wwwroot/index.php
-    $CP $misc/board_index.php $hdir/index.php
-    $CP $misc/404.php $hdir/
-    $CP $misc/404.php $wwwroot/
-    $CP $misc/maintenance.php $hdir/
-    $CP $misc/maintenance.php $wwwroot/
-    $CP $this_dir/manage.sh $wwwroot/
-    sudo ln -sf $hdir/img/favicon.ico $hdir/
-    sudo ln -sf $hdir/img/favicon.ico $wwwroot/
-    sudo ln -sf $hdir/img/bg2.png $wwwroot/
-}
-
-function init_3rdparty() {
-    d=$hdir/"3rdparty"
-    echo "Initializing $d"
-    if [ ! -e $d ]; then
-        sudo mkdir "$d"
-    fi
-    #TODO copy only needed 3rdparty files to wwwroot
-    echo "3rdparty folder not ready!"
+    $CP $misc/wwwroot_index.php $WWWROOT/index.php
+    $CP $misc/board_index.php $HDIR/index.php
+    $CP $misc/404.php $HDIR/
+    $CP $misc/404.php $WWWROOT/
+    $CP $misc/maintenance.php $HDIR/
+    $CP $misc/maintenance.php $WWWROOT/
+    $CP $this_dir/manage.sh $WWWROOT/
+    sudo ln -sf $HDIR/img/favicon.ico $HDIR/
+    sudo ln -sf $HDIR/img/favicon.ico $WWWROOT/
+    sudo ln -sf $HDIR/img/bg2.png $WWWROOT/
 }
 
 print_info
 continue_prompt
-echo "Initializing $hdir"
-if [ ! -e $hdir ]; then
-    sudo mkdir "$hdir"
+echo "Initializing $HDIR"
+if [ ! -e $HDIR ]; then
+    sudo mkdir "$HDIR"
 fi
 init_dir "config"
 init_dir "img"
@@ -112,4 +99,4 @@ init_root
 
 init_3rdparty
 
-sudo chown -R $webuser:$webuser $wwwroot
+sudo chown -R $WEBUSER:$WEBUSER $WWWROOT

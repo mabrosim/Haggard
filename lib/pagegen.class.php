@@ -279,7 +279,7 @@ class PageGen {
 
         echo '<link rel="stylesheet" href="./css/main.css" type="text/css">' . PHP_EOL;
         //echo '<link rel="stylesheet" href="./3rdparty/jquery-farbtastic/farbtastic.min.css" type="text/css">' . PHP_EOL;
-        echo '<link rel="stylesheet" href="./3rdparty/jqplot/jquery.jqplot.min.css" type="text/css">' . PHP_EOL;
+        echo '<link rel="stylesheet" href="./3rdparty/jquery.jqplot.css" type="text/css">' . PHP_EOL;
         //echo '<link rel="stylesheet" href="./3rdparty/jquery-tablesorter/jquery.tablesorter.min.css" type="text/css">' . PHP_EOL;
     }
 
@@ -332,12 +332,12 @@ class PageGen {
         echo '<script src='.$GLOBALS['JQUERY_QTIP_JS'].'></script>';
         echo '<script src='.$GLOBALS['JQUERY_MIGRATE_JS'].'></script>';
 
-        $this->loadJSFile("./3rdparty/jquery-cookie/src/jquery.cookie.js");
-        $this->loadJSFile("./3rdparty/jquery-dragsort/jquery.dragsort-0.5.2.min.js");
-        $this->loadJSFile("./3rdparty/jquery-livequery/jquery.livequery.js");
-        $this->loadJSFile("./3rdparty/jquery-placeholder/jquery.placeholder.min.js");
-        $this->loadJSFile("./3rdparty/jquery-farbtastic/src/farbtastic.js");
-        $this->loadJSFile("./3rdparty/jquery-tablesorter/js/jquery.tablesorter.min.js");
+        $this->loadJSFile("./3rdparty/jquery.cookie.js");
+        $this->loadJSFile("./3rdparty/jquery.dragsort-0.5.2.js");
+        $this->loadJSFile("./3rdparty/jquery.livequery.js");
+        $this->loadJSFile("./3rdparty/jquery.placeholder.js");
+        $this->loadJSFile("./3rdparty/farbtastic.js");
+        $this->loadJSFile("./3rdparty/jquery.tablesorter.js");
 
         $this->loadJSFile("./js/navigation.js");
         $this->loadJSFile("./js/login_handler.js");
