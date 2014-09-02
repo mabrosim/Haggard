@@ -98,7 +98,7 @@ if (array_key_exists('jquery', $args) && file_exists('./jquery/' . $args['jquery
     echo ob_get_clean();
 } else {
     /* Write PHP error log */
-    $log = "Haggard [2.0] - 404 error. Params: ";
+    $log = "Haggard - 404 error. Params: ";
     while ($param = current($args)) {
         $log .= key($args) . ': ' . $param . ' - ';
         next($args);

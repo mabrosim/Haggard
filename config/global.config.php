@@ -51,8 +51,10 @@ $GLOBALS['password_salt'] = '';
 $GLOBALS['JQUERY_JS'] = '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js';
 $GLOBALS['JQUERY_UI_CSS'] = '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css';
 $GLOBALS['JQUERY_UI_JS'] = '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js';
-$GLOBALS['JQUERY_QTIP_JS'] = '//qtip2.com/v/2.2.0/basic/jquery.qtip.min.js';
-$GLOBALS['JQUERY_QTIP_CSS'] = '//qtip2.com/v/2.2.0/basic/jquery.qtip.min.css';
+//$GLOBALS['JQUERY_QTIP_JS'] = '//qtip2.com/v/2.2.0/basic/jquery.qtip.min.js';
+$GLOBALS['JQUERY_QTIP_JS'] = '//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js';
+//$GLOBALS['JQUERY_QTIP_CSS'] = '//qtip2.com/v/2.2.0/basic/jquery.qtip.min.css';
+$GLOBALS['JQUERY_QTIP_CSS'] = '//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/basic/jquery.qtip.min.css';
 $GLOBALS['JQUERY_MIGRATE_JS'] = '//code.jquery.com/jquery-migrate-1.2.1.min.js';
 
 /* If running benchmarks */

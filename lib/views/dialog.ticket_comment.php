@@ -92,7 +92,7 @@ if (isset($func)) {
             $i++;
         }
         echo '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>';
-        echo '<script src="../3rdparty/jquery-livequery/jquery.livequery.js" type="text/javascript"></script>';
+        echo '<script src="../3rdparty/jquery.livequery.js" type="text/javascript"></script>';
         echo '<script src="../js/ticket_handler.js" type="text/javascript"></script>';
     } else {
         if ($func == "history") {

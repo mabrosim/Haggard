@@ -38,7 +38,7 @@ echo '<div id="log_table">';
 
 $notifications = $GLOBALS['db']->get_results("SELECT * FROM user_notification WHERE user_id = '" . $_SESSION['userid'] . "' AND board_id = '" . $GLOBALS['board']->getBoardId() . "' ORDER BY time DESC LIMIT 200");
 if ($GLOBALS['db']->num_rows > 0) {
-    echo '<script type="text/javascript" src="./3rdparty/jquery-tablesorter/js/jquery.tablesorter.min.js" charset="UTF-8"></script>';
+    echo '<script type="text/javascript" src="./3rdparty/jquery.tablesorter.js" charset="UTF-8"></script>';
     echo '<table width="100%" class="stat_table" id="notification_table">';
     echo '<thead>';
     echo '<tr><th>Notification</th><th>Time</th></tr>';

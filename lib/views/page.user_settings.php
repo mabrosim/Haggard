@@ -63,6 +63,7 @@ foreach ($users as $user) {
     }
     echo '<td>' . $user->getNokiaSite() . '</td>';
     echo '<td>' . $user->getTimezone() . '</td>';
+    echo '<td><div class="edit_user"><a data-id="'.$user->getId() . '">Edit</a></div></td>';
     echo '<td><div class="remove_user"><a data-id="' . $user->getId() . '">Remove completely</a></div></td>';
     echo '<td><div class="permission_user"><a data-id="' . $user->getId() . '">Permissions</a></div>';
     echo '</td>';

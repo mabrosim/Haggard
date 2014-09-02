@@ -51,7 +51,7 @@ class User {
             if (isset($GLOBALS['board'])) {
                 $this->board = $GLOBALS['board'];
             } else {
-                error_log("Haggard v2.0 : Failed to create user, no board defined");
+                error_log("Haggard : Failed to create user, no board defined");
                 return;
             }
         }

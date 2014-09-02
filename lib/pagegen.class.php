@@ -290,7 +290,9 @@ class PageGen {
 
         echo '<div id="login_dialog" style="display:none;">';
         echo '<div id="pop_up">';
-        echo '<p>Log in with NOE/NEE credentials</p>';
+        if (!$GLOBALS['use_ldap']) {
+            echo '<p>Log in with your network domain credentials</p>';
+        }
         echo '<form id="login_form" action="" method="post">';
         echo '<table border="0" width="100%" cellspacing="3">';
         echo '<tr><td style="text-align:right;" width="30%">Username:</td><td style="text-align:left;"><input name="username" type="text" size="20" maxlength="60"></td></tr>';
