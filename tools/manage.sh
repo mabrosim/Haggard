@@ -189,7 +189,7 @@ do
     update_board $d
     update_board $d $configDir
     update_board $d $libDir
-    sudo chown apache:apache $root/$d/$configDir
+    sudo chown www-data:www-data $root/$d/$configDir
 done
 
 echo 'All done!'
