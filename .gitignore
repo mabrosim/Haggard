@@ -10,4 +10,5 @@ tools/__pycache__/
 favicon.ico
 css/*.min.css
 js/*.min.js
-*.php
+/*.php
+
