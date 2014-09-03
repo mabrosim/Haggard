@@ -47,15 +47,26 @@ $GLOBALS['ldap_password'] = null;
 
 $GLOBALS['password_salt'] = '';
 
-/* external scripts */
-$GLOBALS['JQUERY_JS'] = '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js';
-$GLOBALS['JQUERY_UI_CSS'] = '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css';
-$GLOBALS['JQUERY_UI_JS'] = '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js';
-//$GLOBALS['JQUERY_QTIP_JS'] = '//qtip2.com/v/2.2.0/basic/jquery.qtip.min.js';
-$GLOBALS['JQUERY_QTIP_JS'] = '//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/jquery.qtip.min.js';
-//$GLOBALS['JQUERY_QTIP_CSS'] = '//qtip2.com/v/2.2.0/basic/jquery.qtip.min.css';
-$GLOBALS['JQUERY_QTIP_CSS'] = '//cdnjs.cloudflare.com/ajax/libs/qtip2/2.2.0/basic/jquery.qtip.min.css';
+define("USE_LOCAL_LIBS", 1);
+
+/* 3rd party scripts */
+if (USE_LOCAL_LIBS) {
+$GLOBALS['JQUERY_JS'] =         './3rdparty/jquery.js';
+$GLOBALS['JQUERY_UI_CSS'] =     './3rdparty/jquery-ui.css';
+$GLOBALS['JQUERY_UI_JS'] =      './3rdparty/jquery-ui.js';
+$GLOBALS['JQUERY_QTIP_JS'] =    './3rdparty/jquery.qtip.js';
+$GLOBALS['JQUERY_QTIP_CSS'] =   './3rdparty/jquery.qtip.css';
+$GLOBALS['JQUERY_MIGRATE_JS'] = './3rdparty/jquery-migrate-1.2.1.js';
+}
+else
+{
+$GLOBALS['JQUERY_JS'] =         '//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js';
+$GLOBALS['JQUERY_UI_CSS'] =     '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css';
+$GLOBALS['JQUERY_UI_JS'] =      '//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js';
 $GLOBALS['JQUERY_MIGRATE_JS'] = '//code.jquery.com/jquery-migrate-1.2.1.min.js';
+$GLOBALS['JQUERY_QTIP_JS'] =    '//qtip2.com/v/2.2.0/basic/jquery.qtip.min.js';
+$GLOBALS['JQUERY_QTIP_CSS'] =   '//qtip2.com/v/2.2.0/basic/jquery.qtip.min.css';
+}
 
 /* If running benchmarks */
 define("BENCHMARK", 0);

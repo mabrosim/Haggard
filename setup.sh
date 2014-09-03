@@ -59,19 +59,6 @@ if [ ! -f ./tools/$YUI ]; then
     wget --no-check-certificate -O ./tools/$YUI https://github.com/yui/yuicompressor/releases/download/v$YUIVERSION/$YUI
 fi
 
-# HINT
-# git archive --remote=git://git.foo.com/project.git HEAD:path/to/directory filename
-# http://stackoverflow.com/questions/1125476/git-retrieve-a-single-file-from-a-repository
-
-#phplot
-#http://sourceforge.net/projects/phplot/files/latest/download
-
-#jqplot
-#https://bitbucket.org/cleonello/jqplot/wiki/Home
-
-#PHPExcel
-#https://phpexcel.codeplex.com/SourceControl/latest#
-
 sudo ./tools/init_wwwroot.sh
 
 echo "Done!"

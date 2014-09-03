@@ -5,8 +5,27 @@ source $(dirname $0)/utils.sh
 source $(dirname $0)/minify.sh
 
 thirdparty="$(dirname $0)/../3rdparty"
+tmp="$thirdparty/~tmp"
 
 CP="sudo cp -r --preserve=timestamps"
+
+function wget_more_libs() {
+    # this should be in sync with global.config.php listed libraries
+    LIBS_URLS=(
+        'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.js'
+        'http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/smoothness/jquery-ui.css'
+        'http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.js'
+        'http://code.jquery.com/jquery-migrate-1.2.1.js'
+        'http://qtip2.com/v/2.2.0/basic/jquery.qtip.js'
+        'http://qtip2.com/v/2.2.0/basic/jquery.qtip.css'
+    )
+    for l in "${LIBS_URLS[@]}"; do
+        target=$1/$(basename $l);
+        if [ ! -e $target ]; then
+            wget -O $target $l;
+        fi
+    done
+}
 
 function init_3rdparty() {
     d=$HDIR/"3rdparty"
@@ -19,7 +38,6 @@ function init_3rdparty() {
         $CP "$thirdparty/ezSQL/shared/ez_sql_core.php" "$d/ezSQL/shared/"
         $CP "$thirdparty/ezSQL/mysql/ez_sql_mysql.php" "$d/ezSQL/mysql/"
 
-        tmp="$thirdparty/~tmp/"
         mkdir -p "$tmp"
         $CP "$thirdparty/jquery-cookie/src/jquery.cookie.js" $tmp
         $CP "$thirdparty/jquery-dragsort/jquery.dragsort-0.5.2.js" $tmp
@@ -32,6 +50,8 @@ function init_3rdparty() {
         $CP "$thirdparty/jquery-farbtastic/src/farbtastic.js" $tmp
         $CP "$thirdparty/jquery-tablesorter/js/jquery.tablesorter.js" $tmp
         $CP "$thirdparty/jquery-plot/jquery.jqplot.css" $tmp
+
+        wget_more_libs $tmp
 
         minify "js" $tmp
         for i in $tmp/*.min.js; do
@@ -47,3 +67,6 @@ function init_3rdparty() {
     fi
     sudo chown -R $WEBUSER:$WEBUSER $WWWROOT
 }
+
+echo "3rdparty: DONE!"
+
