@@ -40,40 +40,84 @@ if (!isset($GLOBALS['cur_user']) || !$GLOBALS['cur_user']->getPermission('manage
 
 $args = filter_input_array(INPUT_POST);
 
-if ($args['func'] == "new_user") {
+if ($args['func'] == "new_user_ldap") {
+
     $mail = $GLOBALS['db']->escape($args['mail']);
     $name = "";
     $dn = "";
     $timezone = "Europe/Helsinki";
     $site = "FIOUL08";
 
-    // TODO: functionality without LDAP
-    if ($GLOBALS['use_ldap']) {
-        $conn = ldap_connect($GLOBALS['ldap_domain_controllers'][0]);
-        if ($conn && ldap_bind($conn, $GLOBALS['ldap_admin'], $GLOBALS['ldap_password'])) {
-            $res = ldap_search($conn, 'o=Nokia', '(mail=' . $mail . ')', array("*"));
-            if ($res) {
-                $info = ldap_get_entries($conn, $res);
-                if ($info['count'] == 0) {
-                    echo "Could not find user with email " . $name;
-                    return;
-                }
-
-                $dn = $info[0]['dn'];
-                $name = $info[0]['cn'][0];
-                $site = $info[0]['nokiasite'][0];
-
-                $country = substr($site, 0, 2);
-                $timezone = getTimezoneByCountry($country);
-            } else {
-                echo "Could not find LDAP username with email " . $name;
+    $conn = ldap_connect($GLOBALS['ldap_domain_controllers'][0]);
+    if ($conn && ldap_bind($conn, $GLOBALS['ldap_admin'], $GLOBALS['ldap_password'])) {
+        $res = ldap_search($conn, 'o=Nokia', '(mail=' . $mail . ')', array("*"));
+        if ($res) {
+            $info = ldap_get_entries($conn, $res);
+            if ($info['count'] == 0) {
+                echo "Could not find user with email " . $name;
+                return;
             }
+
+            $dn = $info[0]['dn'];
+            $name = $info[0]['cn'][0];
+            $site = $info[0]['nokiasite'][0];
+
+            $country = substr($site, 0, 2);
+            $timezone = getTimezoneByCountry($country);
+        } else {
+            echo "Could not find LDAP username with email " . $name;
         }
     }
 
     $uid = $GLOBALS['db']->get_var("SELECT id FROM user WHERE email = '" . $mail . "'");
     if (!$uid) {
         $query = "INSERT INTO user (name, email, noe_account, type, nokiasite, timezone) VALUES ('" . $name . "', '" . $mail . "', '" . $dn . "', 'USER', '" . $site . "', '" . $timezone . "')";
+        $GLOBALS['db']->query($query);
+
+        $uid = $GLOBALS['db']->insert_id;
+    }
+
+    // Basic privileges for all users
+    $user = new User($uid);
+    $user->clearPermissions();
+    $user->setPermission('move_ticket');
+    $user->setPermission('create_ticket');
+    $user->setPermission('edit_ticket');
+    $user->setPermission('comment_ticket');
+
+    $lid = $GLOBALS['db']->get_var("SELECT id FROM user_board WHERE user_id = '" . $uid . "' AND board_id = '" . $GLOBALS['board']->getBoardId() . "'");
+
+    if (!$lid) {
+        $GLOBALS['db']->query("INSERT INTO user_board (user_id, board_id) VALUES ('" . $uid . "', '" . $GLOBALS['board']->getBoardId() . "')");
+
+        $log = $_SESSION['username'] . ' added new user: ' . $name . ' (' . $mail . ').';
+        $GLOBALS['logger']->log($log);
+
+        $GLOBALS['email']->setAddress($mail);
+        $GLOBALS['email']->setSubject("Account created");
+        $msg = $_SESSION['username'] . " has granted you access to Haggard!<br><br>";
+        $msg .= 'To login please go to <a href="' . $GLOBALS['board']->getBoardURL() . '">' . $GLOBALS['board']->getBoardURL() . '</a><br><br>';
+        $msg .= 'Username: ' . $name . '<br><br><br>';
+
+        $GLOBALS['email']->setMessage($msg);
+        $GLOBALS['email']->send();
+        echo "true";
+    } else {
+        echo "User is already on this board";
+    }
+
+} else if ($args['func'] == "new_user") {
+    $mail = $GLOBALS['db']->escape($args['email']);
+    $name = $GLOBALS['db']->escape($args['name']);
+    $pass = sha1($GLOBALS['db']->escape($args['pass']));
+
+    $dn = "";
+    $timezone = "Europe/Helsinki";
+    $site = "OULU";
+
+    $uid = $GLOBALS['db']->get_var("SELECT id FROM user WHERE email = '" . $mail . "'");
+    if (!$uid) {
+        $query = "INSERT INTO user (name, email, password, type, nokiasite, timezone) VALUES ('" . $name . "', '" . $mail . "', '" . $pass . "', 'USER', '" . $site . "', '" . $timezone . "')";
         $GLOBALS['db']->query($query);
 
         $uid = $GLOBALS['db']->insert_id;
@@ -123,7 +167,9 @@ if ($args['func'] == "new_user") {
     $name = $GLOBALS['db']->escape($args['name']);
     $email = $GLOBALS['db']->escape($args['email']);
     $id = $GLOBALS['db']->escape($args['id']);
-    $query = "UPDATE user SET name = '" . $name . "', email='" . $email . "' WHERE id = '" . $id . "'";
+    $pass = sha1($GLOBALS['db']->escape($args['pass']));
+
+    $query = "UPDATE user SET name = '" . $name . "', email='" . $email . "', password='" . $pass . "' WHERE id = '" . $id . "'";
     $GLOBALS['db']->query($query);
 
     $log = $_SESSION['username'] . ' edited user: ' . $name . '(' . $email . ').';

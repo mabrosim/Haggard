@@ -45,7 +45,8 @@ $(function()
 
     $( "a", ".edit_user" ).button().click(function() {
         var user_id = $(this).data("id");
-        $( "#dialog" ).dialog(
+        var d = $("#dialog");
+        d.dialog(
             {
                 autoOpen: false,
                 modal: true,
@@ -58,6 +59,7 @@ $(function()
                     {
                         var name = $('[name=name]').val();
                         var email = $('[name=email]').val();
+                        var password = $('[name=pass]').val();
 
                         if(name === "" || email == "")
                         {
@@ -65,7 +67,7 @@ $(function()
                             return false;
                         }
 
-                        $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", { "func" : "edit_user", "name": name, "id" : user_id, "email" : email }, function(dada)
+                        $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", { "func" : "edit_user", "name": name, "id" : user_id, "email" : email, "pass" : password }, function()
                         {
                             $("#sub_content").load("./lib/dyn_content.php?page=page.user_settings.php", function() {
                                 $("#dialog").dialog("close");
@@ -76,9 +78,9 @@ $(function()
                 }
             });
 
-        $("#dialog").load("./lib/dyn_content.php?page=dialog.edit_user.php&id="+user_id, function()
+        d.load("./lib/dyn_content.php?page=dialog.edit_user.php&id="+user_id, function()
         {
-            $( "#dialog" ).dialog( "open" );
+            d.dialog( "open" );
         });
     });
 
@@ -147,7 +149,7 @@ $(function()
         });
     });
 
-    $("button", ".add_user").button().click(function() {
+    $("button", ".add_user_ldap").button().click(function() {
         $("#dialog").dialog(
             {
                 autoOpen: false,
@@ -165,15 +167,15 @@ $(function()
 
                     $('#user_form').bind('submit', function()
                     {
-                        var nam = $('[name=name]').val();
+                        var name = $('[name=name]').val();
 
-                        if (nam === "")
+                        if (name === "")
                         {
                             alert("Please fill name or email!");
                             return false;
                         }
 
-                        $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", {"func": "new_user", "mail": nam}, function(dada)
+                        $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", {"func": "new_user_ldap", "mail": name}, function(dada)
                         {
                             if (dada === "true")
                             {
@@ -193,9 +195,57 @@ $(function()
 
             });
 
-        $("#dialog").load("./lib/dyn_content.php?page=dialog.add_user.php", function()
+        $("#dialog").load("./lib/dyn_content.php?page=dialog.add_user_ldap.php", function()
         {
             $("#dialog").dialog("open");
+        });
+    });
+
+    $("button", ".add_user").button().click(function() {
+        var d = $("#dialog");
+        d.dialog(
+            {
+                autoOpen: false,
+                modal: true,
+                width: 370,
+                height: "auto",
+                title: "New user",
+                open: function(event, ui)
+                {
+                    $('#user_form').bind('submit', function ()
+                    {
+                        var name = $('[name=name]').val();
+                        var email = $('[name=email]').val();
+                        var password = $('[name=pass]').val();
+                        alert(password);
+
+                        if(name === "" || email === "")
+                        {
+                            alert("Please fill name and email!");
+                            return false;
+                        }
+
+                        $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", {"func" : "new_user", "name": name, "email" : email, "pass" : password  }, function(dada)
+                        {
+                            if (dada === "true")
+                            {
+                                $("#sub_content").load("./lib/dyn_content.php?page=page.user_settings.php", function() {
+                                    $("#dialog").dialog("close");
+                                });
+                            }
+                            else
+                            {
+                                alert(dada);
+                            }
+                        });
+                        return false;
+                    });
+                }
+            });
+
+        d.load("./lib/dyn_content.php?page=dialog.add_user.php", function()
+        {
+            d.dialog("open");
         });
     });
 });

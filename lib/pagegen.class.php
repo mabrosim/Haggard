@@ -130,11 +130,6 @@ class PageGen {
             $password = $_POST['password'];
         }
 
-        if ($password == "") {
-            error_log("HAGGARD ERROR [2.0]: Password was not good for login " . $name);
-            return;
-        }
-
         if (strtolower($name) == "guest") {
             if ($password == $GLOBALS['board']->getSettingValue("GUEST_PASSWORD") &&
                     $GLOBALS['board']->getSettingValue("GUEST_PASSWORD") != "") {
@@ -290,7 +285,7 @@ class PageGen {
 
         echo '<div id="login_dialog" style="display:none;">';
         echo '<div id="pop_up">';
-        if (!$GLOBALS['use_ldap']) {
+        if ($GLOBALS['use_ldap']) {
             echo '<p>Log in with your network domain credentials</p>';
         }
         echo '<form id="login_form" action="" method="post">';
