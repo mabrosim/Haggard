@@ -52,7 +52,11 @@ else
 echo '<h2>Active users</h2>';
 echo '<table border="0" class="settings_table">';
 
-echo '<tr><th>Name</th><th>Displayed name</th><th>E-mail</th><th>Last login</th><th>Location</th><th>Timezone</th>';
+echo '<tr><th>Name</th><th>Displayed name</th><th>E-mail</th><th>Last login</th>';
+if ($GLOBALS['use_ldap']) {
+    echo '<th>Location</th>';
+}
+echo '<th>Timezone</th>';
 echo '<th colspan="3" style="text-align: center;">Actions</th></tr>';
 
 $users = $GLOBALS['board']->getUsers(1);
