@@ -32,13 +32,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 require_once './lib/board.class.php';
 
-class PageGen {
-
+class PageGen
+{
     private $board = NULL;
     private $current_page = "page.board.php";
     private $login_error = "";
 
-    public function __construct() {
+    public function __construct()
+    {
         session_start();
 
         /* Log out from other boards */
@@ -118,7 +119,8 @@ class PageGen {
         }
     }
 
-    private function handleLogin() {
+    private function handleLogin()
+    {
         $name = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);
 
         if (!isset($name) || isset($_SESSION['username'])) {
@@ -132,7 +134,8 @@ class PageGen {
 
         if (strtolower($name) == "guest") {
             if ($password == $GLOBALS['board']->getSettingValue("GUEST_PASSWORD") &&
-                    $GLOBALS['board']->getSettingValue("GUEST_PASSWORD") != "") {
+                $GLOBALS['board']->getSettingValue("GUEST_PASSWORD") != ""
+            ) {
                 $_SESSION['logged_user'] = new User(1);
                 $_SESSION['username'] = "Guest";
                 $_SESSION['userid'] = 1;
@@ -155,7 +158,7 @@ class PageGen {
             $info = ldap_get_entries($conn, $res);
             if ($info['count'] == 0) {
                 $this->login_error = "Could not find user " . $name;
-                error_log("HAGGARD ERROR [2.0]: Cannot find LDAP user " . $name);
+                error_log("HAGGARD ERROR : Cannot find LDAP user " . $name);
                 return;
             }
 
@@ -196,13 +199,18 @@ class PageGen {
                 $this->login_error = "Wrong password";
                 error_log("HAGGARD ERROR: User authentication failed for user " . $name);
             }
-        }
-        else {
-
+        } else {
             $realname = '';
-            $email = '';
 
             $name = $GLOBALS['db']->escape($name);
+
+            $uid = $GLOBALS['db']->get_var("SELECT id FROM user WHERE name='$name'");
+            if (!$uid) {
+                $this->login_error = "Could not find user " . $name;
+                error_log("HAGGARD ERROR: Could not find user " . $name);
+                return;
+            }
+
             $password = $GLOBALS['db']->escape($password);
             $password .= $GLOBALS['password_salt'];
             $password = sha1($password);
@@ -218,12 +226,11 @@ class PageGen {
                 $_SESSION['userid'] = $uid;
                 $_SESSION['board_name'] = $GLOBALS['board']->getBoardName();
                 $GLOBALS['logger']->login($_SESSION['logged_user']);
-            }
-            else {
-                $this->login_error = "Could not find user " . $name;
-                error_log("HAGGARD ERROR: Could not find user " . $name);
-                //$this->login_error = "Wrong password";
-                //error_log("HAGGARD ERROR: User authentication failed for user " . $name);
+            } else {
+                //$this->login_error = "Could not find user " . $name;
+                //error_log("HAGGARD ERROR: Could not find user " . $name);
+                $this->login_error = "Wrong password";
+                error_log("HAGGARD ERROR: User authentication failed for user " . $name);
                 return;
             }
 
@@ -233,54 +240,16 @@ class PageGen {
 
     /* Used to get page content from jQuery navigation */
 
-    public function getPageContent($page) {
+    public function getPageContent($page)
+    {
         $this->current_page = $page;
         return $this->genContent() . $this->loadJS();
     }
 
     /* Used to print out the first page */
 
-    public function printPage() {
-        $this->genHeader();
-        echo '</head>' . PHP_EOL;
-        flush();
-        echo '<body>' . PHP_EOL;
-        $this->genContent();
-        $this->genFooter();
-        $this->loadJS();
-        echo '</body>' . PHP_EOL;
-        echo '</html>' . PHP_EOL;
-    }
-
-    /* Generate header for the main page */
-
-    private function genHeader() {
-        echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . PHP_EOL;
-
-        echo '<html xmlns="http://www.w3.org/1999/xhtml">' . PHP_EOL;
-
-        echo '<head>' . PHP_EOL;
-
-        echo '<title>' . $this->board->getBoardName() . '</title>' . PHP_EOL;
-        echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>' . PHP_EOL;
-        echo '<meta http-equiv="X-UA-Compatible" content="IE=9" />' . PHP_EOL;
-
-        /* Favicon */
-        echo '<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />';
-
-        /* Common stylesheets for all pages */
-        echo '<link rel="stylesheet" href=' . $GLOBALS['JQUERY_UI_CSS'] . ' />' . PHP_EOL;
-        echo '<link rel="stylesheet" href=' . $GLOBALS['JQUERY_QTIP_CSS'] . ' />' . PHP_EOL;
-
-        echo '<link rel="stylesheet" href="./css/main.css" type="text/css">' . PHP_EOL;
-        //echo '<link rel="stylesheet" href="./3rdparty/jquery-farbtastic/farbtastic.min.css" type="text/css">' . PHP_EOL;
-        echo '<link rel="stylesheet" href="./3rdparty/jqplot/jquery.jqplot.min.css" type="text/css">' . PHP_EOL;
-        //echo '<link rel="stylesheet" href="./3rdparty/jquery-tablesorter/jquery.tablesorter.min.css" type="text/css">' . PHP_EOL;
-    }
-
-    /* Generates content from views */
-
-    private function genContent() {
+    private function genContent()
+    {
         require_once './lib/views/menu.php';
 
         echo '<div id="login_dialog" style="display:none;">';
@@ -314,20 +283,17 @@ class PageGen {
         echo '</div>';
     }
 
-    private function genFooter() {
-        // require_once './lib/views/footer.php';
-    }
+    /* Generate header for the main page */
 
-    /* Loads appropriate JS for each page */
-
-    private function loadJS() {
+    private function loadJS()
+    {
         /* Common javascripts for all pages */
 
         // Load external js libraries
-        echo '<script src='.$GLOBALS['JQUERY_JS'].'></script>';
-        echo '<script src='.$GLOBALS['JQUERY_UI_JS'].'></script>';
-        echo '<script src='.$GLOBALS['JQUERY_QTIP_JS'].'></script>';
-        echo '<script src='.$GLOBALS['JQUERY_MIGRATE_JS'].'></script>';
+        echo '<script src=' . $GLOBALS['JQUERY_JS'] . '></script>';
+        echo '<script src=' . $GLOBALS['JQUERY_UI_JS'] . '></script>';
+        echo '<script src=' . $GLOBALS['JQUERY_QTIP_JS'] . '></script>';
+        echo '<script src=' . $GLOBALS['JQUERY_MIGRATE_JS'] . '></script>';
 
         $this->loadJSFile("./3rdparty/jquery.cookie.js");
         $this->loadJSFile("./3rdparty/jquery.dragsort-0.5.2.js");
@@ -354,12 +320,60 @@ class PageGen {
         }
     }
 
-    private function loadJSFile($file) {
+    /* Generates content from views */
+
+    private function loadJSFile($file)
+    {
         if (file_exists($file)) {
             echo '<script src="' . $file . '" type="text/javascript" charset="UTF-8"></script>';
         } else {
             error_log("[ERROR] Could not find Javascript file " . $file);
         }
+    }
+
+    public function printPage()
+    {
+        $this->genHeader();
+        echo '</head>' . PHP_EOL;
+        flush();
+        echo '<body>' . PHP_EOL;
+        $this->genContent();
+        $this->genFooter();
+        $this->loadJS();
+        echo '</body>' . PHP_EOL;
+        echo '</html>' . PHP_EOL;
+    }
+
+    /* Loads appropriate JS for each page */
+
+    private function genHeader()
+    {
+        echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . PHP_EOL;
+
+        echo '<html xmlns="http://www.w3.org/1999/xhtml">' . PHP_EOL;
+
+        echo '<head>' . PHP_EOL;
+
+        echo '<title>' . $this->board->getBoardName() . '</title>' . PHP_EOL;
+        echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>' . PHP_EOL;
+        echo '<meta http-equiv="X-UA-Compatible" content="IE=9" />' . PHP_EOL;
+
+        /* Favicon */
+        echo '<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />';
+
+        /* Common stylesheets for all pages */
+        echo '<link rel="stylesheet" href=' . $GLOBALS['JQUERY_UI_CSS'] . ' />' . PHP_EOL;
+        echo '<link rel="stylesheet" href=' . $GLOBALS['JQUERY_QTIP_CSS'] . ' />' . PHP_EOL;
+
+        echo '<link rel="stylesheet" href="./css/main.css" type="text/css">' . PHP_EOL;
+        //echo '<link rel="stylesheet" href="./3rdparty/jquery-farbtastic/farbtastic.min.css" type="text/css">' . PHP_EOL;
+        echo '<link rel="stylesheet" href="./3rdparty/jqplot/jquery.jqplot.min.css" type="text/css">' . PHP_EOL;
+        //echo '<link rel="stylesheet" href="./3rdparty/jquery-tablesorter/jquery.tablesorter.min.css" type="text/css">' . PHP_EOL;
+    }
+
+    private function genFooter()
+    {
+        // require_once './lib/views/footer.php';
     }
 
 }
