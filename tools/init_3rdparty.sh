@@ -45,11 +45,13 @@ function init_3rdparty() {
         $CP "$thirdparty/jquery-placeholder/jquery.placeholder.js" $tmp
         $CP "$thirdparty/jquery-farbtastic/src/farbtastic.js" $tmp
         $CP "$thirdparty/jquery-tablesorter/js/jquery.tablesorter.js" $tmp
-        $CP "$thirdparty/jquery-plot/jquery.jqplot.js" $tmp
-
         $CP "$thirdparty/jquery-farbtastic/src/farbtastic.js" $tmp
         $CP "$thirdparty/jquery-tablesorter/js/jquery.tablesorter.js" $tmp
-        $CP "$thirdparty/jquery-plot/jquery.jqplot.css" $tmp
+
+        sudo mkdir -p $d/jqplot/plugins
+        $CP "$thirdparty/jquery-plot/jquery.jqplot.min.js" $d/jqplot
+        $CP "$thirdparty/jquery-plot/jquery.jqplot.min.css" $d/jqplot
+        $CP "$thirdparty/jquery-plot/plugins/"*"min"* $d/jqplot/plugins
 
         wget_more_libs $tmp
 

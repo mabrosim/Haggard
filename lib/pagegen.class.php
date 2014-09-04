@@ -274,7 +274,7 @@ class PageGen {
 
         echo '<link rel="stylesheet" href="./css/main.css" type="text/css">' . PHP_EOL;
         //echo '<link rel="stylesheet" href="./3rdparty/jquery-farbtastic/farbtastic.min.css" type="text/css">' . PHP_EOL;
-        echo '<link rel="stylesheet" href="./3rdparty/jquery.jqplot.css" type="text/css">' . PHP_EOL;
+        echo '<link rel="stylesheet" href="./3rdparty/jqplot/jquery.jqplot.min.css" type="text/css">' . PHP_EOL;
         //echo '<link rel="stylesheet" href="./3rdparty/jquery-tablesorter/jquery.tablesorter.min.css" type="text/css">' . PHP_EOL;
     }
 

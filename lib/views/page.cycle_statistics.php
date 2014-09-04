@@ -40,7 +40,7 @@ echo '<script type="text/javascript" src="./3rdparty/jqplot/plugins/jqplot.canva
 echo '<script type="text/javascript" src="./3rdparty/jqplot/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>';
 echo '<script type="text/javascript" src="./3rdparty/jqplot/plugins/jqplot.dateAxisRenderer.min.js"></script>';
 echo '<script type="text/javascript" src="./3rdparty/jqplot/plugins/jqplot.barRenderer.min.js"></script>';
-echo '<script type="text/javascript" src="./3rdparty/jqplot/plugins/jqplot.highlighter.js"></script>';
+echo '<script type="text/javascript" src="./3rdparty/jqplot/plugins/jqplot.highlighter.min.js"></script>';
 echo '<script type="text/javascript" src="./3rdparty/jqplot/plugins/jqplot.cursor.min.js"></script>';
 echo '<script type="text/javascript" src="./js/statistics.js"></script>';
 require_once './ticket.class.php';
