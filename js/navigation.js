@@ -41,7 +41,7 @@ $(document).ready(function()
 {
     $('input, textarea').placeholder();
 
-    const url_wiki = "https://github.com/mabrosim/Haggard/wiki";
+    var url_wiki = "https://github.com/mabrosim/Haggard/wiki";
     var timeout = 500;
     var closetimer = 0;
     var menuitem = 0;
