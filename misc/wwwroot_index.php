@@ -31,9 +31,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 header('Content-type: text/html; charset=utf-8');
-require_once './haggard/config/database.config.php';
-require_once './haggard/3rdparty/ezSQL/shared/ez_sql_core.php';
-require_once './haggard/3rdparty/ezSQL/mysql/ez_sql_mysql.php';
+require_once './base/config/database.config.php';
+require_once './base/3rdparty/ezSQL/shared/ez_sql_core.php';
+require_once './base/3rdparty/ezSQL/mysql/ez_sql_mysql.php';
 
 $GLOBALS['db'] = new ezSQL_mysql($database['username'], $database['password'], $database['database'], $database['host']);
 
@@ -42,7 +42,7 @@ echo '<!DOCTYPE html>';
 echo '<html>';
 echo '<head>';
 echo '<title>Haggard - Digital boards</title>';
-echo '<link rel="shortcut icon" type="image/x-icon" href="./haggard/favicon.ico" />';
+echo '<link rel="shortcut icon" type="image/x-icon" href="./base/favicon.ico" />';
 echo '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>';
 //echo '<script type="text/javascript" src="./jwplayer.js"></script>' . PHP_EOL;
 ?>
@@ -69,7 +69,7 @@ $(document).ready(function() {
 @font-face
 {
     font-family: YourFontFamilyName;
-    src: url('./haggard/font/YourFont.ttf');
+    src: url('./base/font/YourFont.ttf');
 }
 */
 body
@@ -142,8 +142,6 @@ $all_month_stat = $GLOBALS['db']->get_var("SELECT COUNT(id) FROM log WHERE DATE(
 
 echo '<a name="support"></a>';
 echo '<h1>Made in Oulu with Passion!</h1>';
-echo '<p>Haggard was developed as hobby project by Heikki Hellgren & Maxim Abrosimov.<br>';
-echo ' your thanks will generate good karma for the tool creators wherever they are. </p>';
 
 $boards = $GLOBALS['db']->get_var("SELECT COUNT(id) FROM board");
 $private_boards = 0;
@@ -153,7 +151,7 @@ if(count($dirs) > 0)
 {
     foreach($dirs as $dir)
     {
-        if($dir == "haggard") continue;
+        if($dir == "base") continue;
         $board = array('name' => $dir,
                        'id' => 0);
         if(file_exists('./'.$dir.'/config/board.config.php'))
@@ -228,6 +226,8 @@ echo '<p>Activity past month: '.$all_month_stat.' (Avg / board: '.round($all_mon
 
 echo '</div>';
 ?>
+
+/*
 <script type="text/javascript">
 jwplayer('video').setup({
     file: './haggard.mp4',
@@ -235,6 +235,7 @@ jwplayer('video').setup({
     height: '450',
 });
 </script>
+*/
 
 <?php
 echo '</body></html>';

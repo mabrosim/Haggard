@@ -53,7 +53,7 @@ function init_dir() {
 # 2. param, if set
 #    the first parameter is used as filetype either js or css,
 #    and the dir content is minified before move.
-    d=$HDIR/$1
+    d=$WWWBASE/$1
     echo "Initializing $d"
     if [ ! -e $d ]; then
         sudo mkdir "$d"
@@ -72,23 +72,23 @@ function init_dir() {
 }
 
 function init_root() {
-    $CP $misc/wwwroot_index.php $WWWROOT/index.php
-    $CP $misc/board_index.php $HDIR/index.php
-    $CP $misc/404.php $HDIR/
-    $CP $misc/404.php $WWWROOT/
-    $CP $misc/maintenance.php $HDIR/
-    $CP $misc/maintenance.php $WWWROOT/
-    $CP $this_dir/manage.sh $WWWROOT/
-    sudo ln -sf $HDIR/img/favicon.ico $HDIR/
-    sudo ln -sf $HDIR/img/favicon.ico $WWWROOT/
-    sudo ln -sf $HDIR/img/bg2.png $WWWROOT/
+    $CP $misc/wwwroot_index.php $WWWHAGGARD/index.php
+    $CP $misc/board_index.php $WWWBASE/index.php
+    $CP $misc/404.php $WWWHAGGARD/
+    $CP $misc/404.php $WWWBASE/
+    $CP $misc/maintenance.php $WWWHAGGARD/
+    $CP $misc/maintenance.php $WWWBASE/
+    $CP $this_dir/manage.sh $WWWHAGGARD/
+    sudo ln -sf $WWWBASE/img/favicon.ico $WWWHAGGARD/
+    sudo ln -sf $WWWBASE/img/favicon.ico $WWWHAGGARD/
+    sudo ln -sf $WWWBASE/img/bg2.png $WWWHAGGARD/
 }
 
 print_info
 continue_prompt
-echo "Initializing $HDIR"
-if [ ! -e $HDIR ]; then
-    sudo mkdir "$HDIR"
+echo "Initializing $WWWBASE"
+if [ ! -e $WWWBASE ]; then
+    sudo mkdir -p "$WWWBASE"
 fi
 init_dir "config"
 init_dir "img"
@@ -99,4 +99,4 @@ init_root
 
 init_3rdparty
 
-sudo chown -R $WEBUSER:$WEBUSER $WWWROOT
+sudo chown -R $WEBUSER:$WEBUSER $WWWHAGGARD

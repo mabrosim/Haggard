@@ -57,7 +57,7 @@ function wget_more_libs() {
 }
 
 function init_3rdparty() {
-    d=$HDIR/"3rdparty"
+    d=$WWWBASE/"3rdparty"
     echo "Initializing $d"
     sudo rm -fR "$d"
     if [ ! -e $d ]; then
@@ -96,7 +96,7 @@ function init_3rdparty() {
             sudo mv $i $d/$a.css;
         done
     fi
-    sudo chown -R $WEBUSER:$WEBUSER $WWWROOT
+    sudo chown -R $WEBUSER:$WEBUSER $WWWHAGGARD
 }
 
 echo "3rdparty: DONE!"

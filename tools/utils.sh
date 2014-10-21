@@ -31,7 +31,8 @@
 #
 
 WWWROOT="/var/www/html"
-HDIR=$WWWROOT/haggard
+WWWHAGGARD=$WWWROOT/haggard
+WWWBASE=$WWWHAGGARD/base
 WEBUSER="www-data"
 YUIVERSION="2.4.8"
 YUI="yuicompressor-$YUIVERSION.jar"

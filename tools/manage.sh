@@ -21,7 +21,7 @@
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
 # DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUEardNTIAL
 # DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
 # SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 # CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
@@ -29,13 +29,13 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-root="/var/www/html"
-haggard="haggard"
+root="/var/www/html/haggard"
+base="base"
 configDir="config"
 configFile="board.config.php"
 libDir="lib"
 
-excludes=($configDir $libDir $configFile $haggard .. . doc .git .gitignore tools TODO LICENSE README.md)
+excludes=($configDir $libDir $configFile $base .. . doc .git .gitignore tools TODO LICENSE README.md)
 
 print_logo() {
     clear
@@ -63,10 +63,10 @@ update_board() {
 
     if [ -z $2 ]
     then
-        local s=$root/$haggard
+        local s=$root/$base
         local t=$root/$board
     else
-        local s=$root/$haggard/$2
+        local s=$root/$base/$2
         local t=$root/$board/$2
     fi
 
@@ -127,14 +127,14 @@ print_logo
 
 while true
 do
-    read -n 1 -p "Do you want to update $haggard repository? [yn] " yn
+    read -n 1 -p "Do you want to update $base repository? [yn] " yn
     echo ''
     case $yn in
         [Yy])
             echo "* Updating *"
-            cd "$root/$haggard"
+            cd "$root/$base"
             sudo git pull
-            sudo chown -R root:root $root/$haggard
+            sudo chown -R root:root $root/$base
             break
             ;;
         [Nn])
@@ -189,7 +189,7 @@ do
     update_board $d
     update_board $d $configDir
     update_board $d $libDir
-    sudo chown www-data:www-data $root/$d/$configDir
+    sudo chown -R www-data:www-data $root/$d
 done
 
 echo 'All done!'
