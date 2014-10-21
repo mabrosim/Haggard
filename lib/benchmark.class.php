@@ -30,41 +30,48 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class Benchmark {
+class Benchmark
+{
 
     private $sql_b;
 
-    public function __construct() {
+    public function __construct()
+    {
         if (BENCHMARK) {
             Profiler::enable();
         }
     }
 
-    public function startBlock($name) {
+    public function startBlock($name)
+    {
         if (BENCHMARK) {
             Profiler::start($name);
         }
     }
 
-    public function endBlock($name) {
+    public function endBlock($name)
+    {
         if (BENCHMARK) {
             Profiler::end($name);
         }
     }
 
-    public function startQuery($query) {
+    public function startQuery($query)
+    {
         if (BENCHMARK) {
             $this->sql_b = Profiler::sqlStart($query);
         }
     }
 
-    public function endQuery() {
+    public function endQuery()
+    {
         if (BENCHMARK) {
             $this->sql_b->end();
         }
     }
 
-    public function render() {
+    public function render()
+    {
         if (BENCHMARK) {
             Profiler::render();
         }

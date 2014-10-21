@@ -30,7 +30,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-function getTimezoneByCountry($countryId) {
+function getTimezoneByCountry($countryId)
+{
     $timezones = array();
     $timezones["us"] = "America/New_York";
     $timezones["us"] = "America/Chicago";

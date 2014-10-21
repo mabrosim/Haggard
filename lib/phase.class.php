@@ -30,7 +30,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class Phase {
+class Phase
+{
 
     private $id = 0;
     private $name = "";
@@ -42,7 +43,8 @@ class Phase {
     private $notify_empty = 0;
     private $ticket_limit = 0;
 
-    public function __construct($id) {
+    public function __construct($id)
+    {
         $this->id = $id;
         $res = $GLOBALS['db']->get_row("SELECT name, css, help, active, force_comment, wip_limit, ticket_limit, notify_empty FROM phase WHERE id = '" . $this->id . "' LIMIT 1");
 
@@ -58,43 +60,53 @@ class Phase {
         }
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getCSS() {
+    public function getCSS()
+    {
         return $this->css;
     }
 
-    public function getHelp() {
+    public function getHelp()
+    {
         return $this->help;
     }
 
-    public function isActive() {
+    public function isActive()
+    {
         return $this->active;
     }
 
-    public function getForceComment() {
+    public function getForceComment()
+    {
         return $this->force_comment;
     }
 
-    public function getWIPLimit() {
+    public function getWIPLimit()
+    {
         return $this->wip_limit;
     }
 
-    public function getTicketLimit() {
+    public function getTicketLimit()
+    {
         return $this->ticket_limit;
     }
 
-    public function getNotifyEmpty() {
+    public function getNotifyEmpty()
+    {
         return $this->notify_empty;
     }
 
-    public function getCurrentWIP() {
+    public function getCurrentWIP()
+    {
         $wip = 0;
         $tickets = $GLOBALS['db']->get_var("SELECT SUM(wip) FROM ticket WHERE phase = '" . $this->id . "' AND active = '1' AND deleted = '0'");
         if ($tickets) {
@@ -103,7 +115,8 @@ class Phase {
         return $wip;
     }
 
-    public function getNumTickets() {
+    public function getNumTickets()
+    {
         $tickets = $GLOBALS['db']->get_var("SELECT COUNT(id) FROM ticket WHERE phase = '" . $this->id . "' AND active = '1' AND deleted = '0'");
         return $tickets;
     }

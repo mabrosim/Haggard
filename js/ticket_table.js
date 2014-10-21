@@ -1,41 +1,42 @@
 /*
-Copyright (c) 2013-2014, Microsoft Mobile
-All rights reserved.
+ Copyright (c) 2013-2014, Microsoft Mobile
+ All rights reserved.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
 
-* Redistributions of source code must retain the above copyright notice, this
-  list of conditions and the following disclaimer.
+ * Redistributions of source code must retain the above copyright notice, this
+ list of conditions and the following disclaimer.
 
-* Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
+ * Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation
+ and/or other materials provided with the distribution.
 
-* Neither the name of the {organization} nor the names of its
-  contributors may be used to endorse or promote products derived from
-  this software without specific prior written permission.
+ * Neither the name of the {organization} nor the names of its
+ contributors may be used to endorse or promote products derived from
+ this software without specific prior written permission.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
-function updateWIP(cycle, p_id, c_id)
-{
-    if ($("current_cycle_wip").length > 0)
-    {
-        $.post("./lib/dyn_content.php?jquery=jquery.ticket_move.php", {"func": "updateWIP", "cycle": cycle, "p_id": p_id, "c_id": c_id}, function(return_val)
-        {
-            if (return_val)
-            {
+function updateWIP(cycle, p_id, c_id) {
+    if ($("current_cycle_wip").length > 0) {
+        $.post("./lib/dyn_content.php?jquery=jquery.ticket_move.php", {
+            "func": "updateWIP",
+            "cycle": cycle,
+            "p_id": p_id,
+            "c_id": c_id
+        }, function (return_val) {
+            if (return_val) {
                 var ret = JSON.parse(return_val);
                 var current_wip = ret["current"];
                 var cycle_wip = ret["cycle"];
@@ -45,16 +46,13 @@ function updateWIP(cycle, p_id, c_id)
                 $("#current_cycle_wip_limit").text(cycle_wip);
                 $("#current_cycle_wip_left").text(wip_left);
 
-                if (current_wip <= (cycle_wip / 2))
-                {
+                if (current_wip <= (cycle_wip / 2)) {
                     $("#current_cycle_wip").css('color', '#1f9100');
                 }
-                else if (current_wip > (cycle_wip / 2) && current_wip <= ((cycle_wip / 2) + (cycle_wip / 4)))
-                {
+                else if (current_wip > (cycle_wip / 2) && current_wip <= ((cycle_wip / 2) + (cycle_wip / 4))) {
                     $("#current_cycle_wip").css('color', '#e18a00');
                 }
-                else
-                {
+                else {
                     $("#current_cycle_wip").css('color', '#c30000');
                 }
             }
@@ -63,13 +61,11 @@ function updateWIP(cycle, p_id, c_id)
 }
 
 var tv_mode = false;
-$(document).ready(function()
-{
+$(document).ready(function () {
     var link_filter = null;
     var tab_selected = false;
 
-    function openCommentWindow(ticket_id)
-    {
+    function openCommentWindow(ticket_id) {
         $("#dialog").dialog({
             autoOpen: false,
             modal: true,
@@ -77,20 +73,20 @@ $(document).ready(function()
             height: 650,
             position: 'center',
             title: "Ticket comments",
-            open: function(event, ui)
-            {
-                $('#comment_tabs').tabs({
-                });
+            open: function (event, ui) {
+                $('#comment_tabs').tabs({});
 
                 comment_window_width = $("#dialog").width();
                 comment_window_height = $("#dialog").height();
 
-                $('#new_comment').bind('submit', function(e)
-                {
+                $('#new_comment').bind('submit', function (e) {
                     e.preventDefault();
                     var comment = $('[name=comment]').val();
-                    $.post("./lib/dyn_content.php?jquery=jquery.ticket_comment.php", {"func": "new_comment", "id": ticket_id, "comment": comment}, function()
-                    {
+                    $.post("./lib/dyn_content.php?jquery=jquery.ticket_comment.php", {
+                        "func": "new_comment",
+                        "id": ticket_id,
+                        "comment": comment
+                    }, function () {
                         $('[name=comment]').val("");
                         $("#comment_frame").attr("src", $("#comment_frame").attr("src"));
                     });
@@ -98,34 +94,29 @@ $(document).ready(function()
                     return false;
                 });
             },
-            resize: function(event, ui)
-            {
+            resize: function (event, ui) {
                 $("#comment_frame_holder").height($(this).height() - 250);
                 $("#comment_line").width($(this).width() - 150);
             }
         });
 
-        $("#dialog").load("./lib/dyn_content.php?page=dialog.ticket_comment.php&ticket_id=" + ticket_id, function()
-        {
+        $("#dialog").load("./lib/dyn_content.php?page=dialog.ticket_comment.php&ticket_id=" + ticket_id, function () {
             $("#dialog").dialog("open");
         });
         return false;
     }
 
-    function tvMode(state)
-    {
+    function tvMode(state) {
         tv_mode = state;
 
-        if (state === true)
-        {
+        if (state === true) {
             $('#content').css('padding-top', '0');
             $('#menu_container').hide();
-            $('#ticket_table_header').livequery(function() {
+            $('#ticket_table_header').livequery(function () {
                 $('#ticket_table_header').hide();
             });
         }
-        else
-        {
+        else {
             $('#content').css('padding-top', '4em');
             $('#menu_container, #ticket_table_header').show();
         }
@@ -133,22 +124,20 @@ $(document).ready(function()
 
     var tvModeTimer;
     if ((window.fullScreen) ||
-            (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
+        (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
         tvMode(true);
     }
 
-    $(window).resize(function()
-    {
+    $(window).resize(function () {
 
         if ((window.fullScreen) ||
-                (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
-            tvModeTimer = setTimeout(function() {
+            (window.innerWidth == screen.width && window.innerHeight == screen.height)) {
+            tvModeTimer = setTimeout(function () {
                 tvMode(true);
             }, 100);
         }
-        else
-        {
-            tvModeTimer = setTimeout(function() {
+        else {
+            tvModeTimer = setTimeout(function () {
                 tvMode(false);
             }, 100);
         }
@@ -156,9 +145,8 @@ $(document).ready(function()
 
     $.fn.qtip.inactiveEvents = ["click", "dblclick"];
 
-    function qtipCreate(elem, content)
-    {
-        $(elem).livequery('mouseover', function(event) {
+    function qtipCreate(elem, content) {
+        $(elem).livequery('mouseover', function (event) {
             $(this).qtip({
                 overwrite: false,
                 content: {
@@ -172,8 +160,7 @@ $(document).ready(function()
                     ready: true
                 },
                 events: {
-                    hide: function(event, api)
-                    {
+                    hide: function (event, api) {
                         $(this).qtip('destroy');
                     }
                 }
@@ -194,20 +181,17 @@ $(document).ready(function()
     qtipCreate('.phase_subscribe', 'Subscribe to phase events');
     qtipCreate('.phase_unsubscribe', 'Unsubscribe from phase events');
 
-    if ($.cookie('tab_selected'))
-    {
+    if ($.cookie('tab_selected')) {
         tab_selected = $.cookie('tab_selected');
     }
 
-    $('#filter_tabs').livequery(function(e)
-    {
+    $('#filter_tabs').livequery(function (e) {
         $(this).tabs({
             collapsible: true,
             active: tab_selected,
             cache: true,
             cookie: {expires: 60},
-            activate: function(event, ui)
-            {
+            activate: function (event, ui) {
                 var target = $(this).tabs('option', 'active');
 
                 if (target === 3) {
@@ -218,13 +202,11 @@ $(document).ready(function()
                     return true;
                 }
 
-                if (tab_selected === target)
-                {
+                if (tab_selected === target) {
                     tab_selected = false;
                     $.cookie('tab_selected', false);
                 }
-                else
-                {
+                else {
                     tab_selected = target;
                     $.cookie('tab_selected', target);
                 }
@@ -235,7 +217,7 @@ $(document).ready(function()
     var p_id = getURLParameter('p_id');
     var c_id = getURLParameter('c_id');
     var order_by = "PRIORITY";
-    $('#sort_by_select').livequery(function() {
+    $('#sort_by_select').livequery(function () {
         if ($.cookie('sort')) {
             order_by = $.cookie('sort');
         } else {
@@ -250,205 +232,169 @@ $(document).ready(function()
         updateTable();
     });
 
-    if (!p_id || p_id === '' || p_id === null || p_id === "null") {
+    if (!p_id || p_id === '' || p_id === null || p_id === "null") {
         p_id = 'all';
         updateFilterCookies();
     }
 
-    if (!c_id || c_id === '' || c_id === null || c_id === "null") {
+    if (!c_id || c_id === '' || c_id === null || c_id === "null") {
         c_id = 'all';
         updateFilterCookies();
     }
 
     var ticket_id = getURLParameter('ticket_id');
-    if (ticket_id === "null" || ticket_id === null)
-    {
+    if (ticket_id === "null" || ticket_id === null) {
         updateTable();
     }
 
-    function showParentChild(ticket)
-    {
+    function showParentChild(ticket) {
         var ticket_id = ticket.data("itemid");
-        $('.ticket_holder').each(function(index)
-        {
+        $('.ticket_holder').each(function (index) {
             if ($(this).data("parent") === ticket_id || $(this).data("child") === ticket_id ||
-                    $(this).data("itemid") === ticket_id || ticket.data("parent") === $(this).data("itemid"))
-            {
+                $(this).data("itemid") === ticket_id || ticket.data("parent") === $(this).data("itemid")) {
                 var resp = $(this).data("resp").toString();
                 var comp = $(this).data("comp").toString();
                 var p_arr = p_id.split(',');
                 var c_arr = c_id.split(',');
 
-                if ((p_id === 'all' && c_id === 'all') || (p_id === "p_all" && c_id === "c_all"))
-                {
+                if ((p_id === 'all' && c_id === 'all') || (p_id === "p_all" && c_id === "c_all")) {
                     $(this).css('display', 'block');
                 }
-                else if (c_id !== 'all' && p_id !== 'all')
-                {
+                else if (c_id !== 'all' && p_id !== 'all') {
                     if (p_arr.indexOf(resp) >= 0 && c_arr.indexOf(comp) >= 0)
                         $(this).css('display', 'block');
                     else
                         $(this).css('display', 'none');
                 }
-                else if (c_id === 'all' && p_id !== 'all')
-                {
+                else if (c_id === 'all' && p_id !== 'all') {
                     if (p_arr.indexOf(resp) >= 0)
                         $(this).css('display', 'block');
                     else
                         $(this).css('display', 'none');
                 }
-                else if (c_id !== 'all' && p_id === 'all')
-                {
+                else if (c_id !== 'all' && p_id === 'all') {
                     if (c_arr.indexOf(comp) >= 0)
                         $(this).css('display', 'block');
                     else
                         $(this).css('display', 'none');
                 }
             }
-            else
-            {
+            else {
                 $(this).css('display', 'none');
             }
         });
     }
 
-    function updateFilterCookies()
-    {
-        if ($.cookie('c_id'))
-        {
+    function updateFilterCookies() {
+        if ($.cookie('c_id')) {
             c_id = $.cookie('c_id');
-            if (c_id === null || c_id === '' || c_id === 'null') {
+            if (c_id === null || c_id === '' || c_id === 'null') {
                 $.cookie('c_id', 'all');
                 c_id = 'all';
             }
             var c_arr = c_id.split(',');
-            for (var i = 0; i < c_arr.length; i++)
-            {
+            for (var i = 0; i < c_arr.length; i++) {
                 $("input[name='ticket_select_component'][data-id=" + c_arr[i] + "]").attr("checked", true);
             }
         }
-        else
-        {
+        else {
             if (c_id === null || c_id === '' || c_id === 'null')
                 c_id = 'all';
             $.cookie('c_id', c_id);
         }
 
-        if ($.cookie('p_id'))
-        {
+        if ($.cookie('p_id')) {
             p_id = $.cookie('p_id');
-            if (p_id === null || p_id === '' || p_id === 'null') {
+            if (p_id === null || p_id === '' || p_id === 'null') {
                 $.cookie('p_id', 'all');
                 p_id = 'all';
             }
 
             var p_arr = p_id.split(',');
-            for (var i = 0; i < p_arr.length; i++)
-            {
+            for (var i = 0; i < p_arr.length; i++) {
                 $("input[name='ticket_select_person'][data-id=" + p_arr[i] + "]").attr("checked", true);
             }
         }
-        else
-        {
+        else {
             if (p_id === null || p_id === '' || p_id === 'null')
                 p_id = 'all';
             $.cookie('p_id', p_id);
         }
 
-        if ($.cookie('sort'))
-        {
+        if ($.cookie('sort')) {
             order_by = $.cookie('sort');
             $("input[name='ticket_select_sorting'][data-order=" + order_by + "]").attr("checked", "checked");
         }
     }
 
-    $('.ticket_holder').livequery('dblclick', function(e) {
+    $('.ticket_holder').livequery('dblclick', function (e) {
         var ticket_id = $(this).data("itemid");
         openCommentWindow(ticket_id);
         return false;
     });
 
-    function clearFilters()
-    {
-        $('.ticket_holder').each(function(index)
-        {
+    function clearFilters() {
+        $('.ticket_holder').each(function (index) {
             $(this).css('display', 'block');
         });
     }
 
-    function updateTable()
-    {
+    function updateTable() {
         updateFilterCookies();
-        if (order_by !== "")
-        {
-            for (i = 0; i <= 8; i++)
-            {
-                if (order_by === "DATA")
-                {
+        if (order_by !== "") {
+            for (i = 0; i <= 8; i++) {
+                if (order_by === "DATA") {
                     $('li', '#phase' + i).sort(sortListName).appendTo('#phase' + i);
                 }
-                else if (order_by === "PRIORITY" || order_by === "TYPE")
-                {
+                else if (order_by === "PRIORITY" || order_by === "TYPE") {
                     $('li', '#phase' + i).sort(sortListPrio).appendTo('#phase' + i);
                 }
-                else if (order_by === "COMPONENT")
-                {
+                else if (order_by === "COMPONENT") {
                     $('li', '#phase' + i).sort(sortListComponent).appendTo('#phase' + i);
                 }
-                else if (order_by === "RESPONSIBLE")
-                {
+                else if (order_by === "RESPONSIBLE") {
                     $('li', '#phase' + i).sort(sortListResponsible).appendTo('#phase' + i);
                 }
-                else if (order_by === "WIP")
-                {
+                else if (order_by === "WIP") {
                     $('li', '#phase' + i).sort(sortListWIP).appendTo('#phase' + i);
                 }
-                else if (order_by === "CHANGED")
-                {
+                else if (order_by === "CHANGED") {
                     $('li', '#phase' + i).sort(sortListChanged).appendTo('#phase' + i);
                 }
-                else if (order_by === "CREATED")
-                {
+                else if (order_by === "CREATED") {
                     $('li', '#phase' + i).sort(sortListCreated).appendTo('#phase' + i);
                 }
             }
         }
 
-        if (link_filter !== null)
-        {
+        if (link_filter !== null) {
             showParentChild(link_filter);
             return;
         }
 
-        $('.ticket_holder').each(function(index)
-        {
-            if ((p_id === 'all' && c_id === 'all') || (p_id === "p_all" && c_id === "c_all"))
-            {
+        $('.ticket_holder').each(function (index) {
+            if ((p_id === 'all' && c_id === 'all') || (p_id === "p_all" && c_id === "c_all")) {
                 $(this).css('display', 'block');
             }
-            else
-            {
+            else {
                 var resp = $(this).data("resp").toString();
                 var comp = $(this).data("comp").toString();
                 var p_arr = p_id.split(',');
                 var c_arr = c_id.split(',');
 
-                if (c_id !== 'all' && p_id !== 'all')
-                {
+                if (c_id !== 'all' && p_id !== 'all') {
                     if (p_arr.indexOf(resp) >= 0 && c_arr.indexOf(comp) >= 0)
                         $(this).css('display', 'block');
                     else
                         $(this).css('display', 'none');
                 }
-                else if (c_id === 'all' && p_id !== 'all')
-                {
+                else if (c_id === 'all' && p_id !== 'all') {
                     if (p_arr.indexOf(resp) >= 0)
                         $(this).css('display', 'block');
                     else
                         $(this).css('display', 'none');
                 }
-                else if (p_id === 'all' && c_id !== 'all')
-                {
+                else if (p_id === 'all' && c_id !== 'all') {
                     if (c_arr.indexOf(comp) >= 0)
                         $(this).css('display', 'block');
                     else
@@ -459,16 +405,13 @@ $(document).ready(function()
 
         search($('#search_input').val());
 
-        if (typeof currentPage !== 'undefined' && current_page.indexOf("?id") === -1)
-        {
+        if (typeof currentPage !== 'undefined' && current_page.indexOf("?id") === -1) {
             current_page = "./lib/dyn_content.php?page=page.board.php&p_id=" + p_id + "&c_id=" + c_id;
         }
-        else if (typeof currentPage !== 'undefined')
-        {
+        else if (typeof currentPage !== 'undefined') {
             var cycle_id = current_page.substring(current_page.indexOf("?id=") + 4);
 
-            if (cycle_id.indexOf("&") !== -1)
-            {
+            if (cycle_id.indexOf("&") !== -1) {
                 cycle_id = cycle_id.substring(0, cycle_id.indexOf("&"));
             }
 
@@ -479,25 +422,20 @@ $(document).ready(function()
         updateWIP($('#current_cycle').text(), p_id, c_id);
     }
 
-    $(".links_ticket").livequery('click', function(e)
-    {
+    $(".links_ticket").livequery('click', function (e) {
         e.preventDefault();
-        if (link_filter === null)
-        {
+        if (link_filter === null) {
             $(this).css('background-image', 'url(./img/icons/56.png)');
             showParentChild($(this).closest('.ticket_holder'));
             link_filter = $(this).closest('.ticket_holder');
         }
-        else
-        {
-            if ($(this).data("id") === link_filter.data("itemid"))
-            {
+        else {
+            if ($(this).data("id") === link_filter.data("itemid")) {
                 $(this).css('background-image', 'url(./img/icons/55.png)');
                 link_filter = null;
                 updateTable();
             }
-            else
-            {
+            else {
                 $(link_filter).find('.links_ticket').css('background-image', 'url(./img/icons/55.png)');
                 $(this).css('background-image', 'url(./img/icons/56.png');
                 showParentChild($(this).closest('.ticket_holder'));
@@ -507,18 +445,16 @@ $(document).ready(function()
         return false;
     });
 
-    $(".comments_ticket, .ticket_comment_log").livequery('click', function(e)
-    {
+    $(".comments_ticket, .ticket_comment_log").livequery('click', function (e) {
         e.preventDefault();
         var ticket_id = $(this).data("id");
         openCommentWindow(ticket_id);
         return false;
     });
 
-    $("#sort_by_person").livequery(function(e)
-    {
+    $("#sort_by_person").livequery(function (e) {
         var ctrl = false;
-        $(this).click(function(e) {
+        $(this).click(function (e) {
             if (e.ctrlKey) {
                 ctrl = true;
             } else {
@@ -526,8 +462,7 @@ $(document).ready(function()
             }
         });
 
-        $(this).buttonset().click(function(e)
-        {
+        $(this).buttonset().click(function (e) {
             if (e.originalEvent.target.name === 'ticket_select_person_all') {
                 $("input[name='ticket_select_person']").removeAttr('checked').button('refresh');
                 $("input[name='ticket_select_person_all']").attr('checked', 'checked').button('refresh');
@@ -538,12 +473,11 @@ $(document).ready(function()
                 p_id = '';
             }
 
-            if (p_id !== 'all')
-            {
+            if (p_id !== 'all') {
                 if (ctrl === true) {
                     $("input[name='ticket_select_person_all']").removeAttr('checked').button('refresh');
                     p_id = '';
-                    $("input[name='ticket_select_person']").each(function() {
+                    $("input[name='ticket_select_person']").each(function () {
                         p_id += (this.checked ? $(this).data('id') + "," : "");
                     });
                 } else {
@@ -574,10 +508,9 @@ $(document).ready(function()
         });
     });
 
-    $("#sort_by_component").livequery(function(e)
-    {
+    $("#sort_by_component").livequery(function (e) {
         var ctrl = false;
-        $(this).click(function(e) {
+        $(this).click(function (e) {
             if (e.ctrlKey) {
                 ctrl = true;
             } else {
@@ -585,8 +518,7 @@ $(document).ready(function()
             }
         });
 
-        $(this).buttonset().click(function(e)
-        {
+        $(this).buttonset().click(function (e) {
             if (e.originalEvent.target.name === 'ticket_select_component_all') {
                 $("input[name='ticket_select_component']").removeAttr('checked').button('refresh');
                 $("input[name='ticket_select_component_all']").attr('checked', 'checked').button('refresh');
@@ -597,12 +529,11 @@ $(document).ready(function()
                 c_id = '';
             }
 
-            if (c_id !== 'all')
-            {
+            if (c_id !== 'all') {
                 if (ctrl === true) {
                     $("input[name='ticket_select_component_all']").removeAttr('checked').button('refresh');
                     c_id = '';
-                    $("input[name='ticket_select_component']").each(function() {
+                    $("input[name='ticket_select_component']").each(function () {
                         c_id += (this.checked ? $(this).data('id') + "," : "");
                     });
                 } else {
@@ -633,10 +564,8 @@ $(document).ready(function()
         });
     });
 
-    $("#sort_by_select").livequery(function(e)
-    {
-        $(this).buttonset().change(function()
-        {
+    $("#sort_by_select").livequery(function (e) {
+        $(this).buttonset().change(function () {
             order_by = $("input[name='ticket_select_sorting']:checked").data('order');
             $.cookie('sort', order_by);
             clearFilters();
@@ -645,8 +574,8 @@ $(document).ready(function()
     });
 
 
-    $("#clear_all_filters").livequery(function(e) {
-        $(this).click(function(e) {
+    $("#clear_all_filters").livequery(function (e) {
+        $(this).click(function (e) {
             e.preventDefault();
             $("input[name='ticket_select_component_all']").attr('checked', 'checked').button('refresh');
             $("input[name='ticket_select_person_all']").attr('checked', 'checked').button('refresh');
@@ -659,17 +588,14 @@ $(document).ready(function()
         });
     });
 
-    $(".show_all_info").livequery('click', function()
-    {
-        if ($(this).data('shown') === 0)
-        {
+    $(".show_all_info").livequery('click', function () {
+        if ($(this).data('shown') === 0) {
             $(this).data('shown', 1);
             $(this).parent().find('.info_hidden').slideDown();
             $(this).css('background-image', 'url(\'./img/icons/12.png\')');
             $(this).parent().find('.info_hidden').attr('class', 'info_shown');
         }
-        else
-        {
+        else {
             $(this).data('shown', 0);
             $(this).parent().find('.info_shown').slideUp();
             $(this).css('background-image', 'url(\'./img/icons/11.png\')');
@@ -677,14 +603,12 @@ $(document).ready(function()
         }
     });
 
-    $(".hide_phase").livequery('click', function(e)
-    {
+    $(".hide_phase").livequery('click', function (e) {
         e.preventDefault();
         var phase_id = $(this).data("id");
         var mode_link = $(this);
 
-        if (mode_link.css('background-image').indexOf("12.png") !== -1)
-        {
+        if (mode_link.css('background-image').indexOf("12.png") !== -1) {
             var hiddenPhases = [];
             if ($.cookie('hidden_phases')) {
                 hiddenPhases = $.cookie('hidden_phases').split(",");
@@ -696,8 +620,7 @@ $(document).ready(function()
             }
 
             mode_link.css('background-image', 'url(./img/icons/11.png)');
-            $('.phase' + phase_id).slideUp('fast', function()
-            {
+            $('.phase' + phase_id).slideUp('fast', function () {
                 $('#phase_name_' + phase_id).find('.name').text('');
 
                 $('#phase_ticket_holder' + phase_id).animate({
@@ -709,8 +632,7 @@ $(document).ready(function()
                 }, 300);
             });
         }
-        else
-        {
+        else {
             var hiddenPhases = [];
             if ($.cookie('hidden_phases')) {
                 hiddenPhases = $.cookie('hidden_phases').split(",");
@@ -727,90 +649,82 @@ $(document).ready(function()
 
             $('#phase_name_' + phase_id).animate({
                 width: width + '%'
-            }, 300, function()
-            {
+            }, 300, function () {
                 $('#phase_name_' + phase_id).find('.name').text($('#phase_name_' + phase_id).data('name'));
             });
 
             $('#phase_ticket_holder' + phase_id).animate({
                 width: width + '%'
-            }, 300, function()
-            {
+            }, 300, function () {
                 $('.phase' + phase_id).slideDown();
             });
         }
     });
 
-    $('.ticket_subscribe_email').livequery('click', function()
-    {
+    $('.ticket_subscribe_email').livequery('click', function () {
         var id = $(this).data('id');
         var subscribe = $(this);
         $("#dialog").dialog(
-                {
-                    autoOpen: false,
-                    modal: true,
-                    width: 350,
-                    height: 'auto',
-                    title: "Subscribe to ticket events",
-                    open: function(event, ui)
-                    {
-                        $('#ticket_email_subscribe').bind('submit', function(e)
-                        {
-                            e.preventDefault();
-                            var email = $('[name=email]').val();
-                            $.post("./lib/dyn_content.php?jquery=jquery.ticket_email_subscribe.php", {"id": id, "email": email}, function()
-                            {
-                                $('#dialog').dialog("close");
-                                subscribe.css('display', 'none');
-                            });
-
-                            return false;
+            {
+                autoOpen: false,
+                modal: true,
+                width: 350,
+                height: 'auto',
+                title: "Subscribe to ticket events",
+                open: function (event, ui) {
+                    $('#ticket_email_subscribe').bind('submit', function (e) {
+                        e.preventDefault();
+                        var email = $('[name=email]').val();
+                        $.post("./lib/dyn_content.php?jquery=jquery.ticket_email_subscribe.php", {
+                            "id": id,
+                            "email": email
+                        }, function () {
+                            $('#dialog').dialog("close");
+                            subscribe.css('display', 'none');
                         });
-                    }
-                });
 
-        $("#dialog").load("./lib/dyn_content.php?page=dialog.ticket_email_subscribe.php", function()
-        {
+                        return false;
+                    });
+                }
+            });
+
+        $("#dialog").load("./lib/dyn_content.php?page=dialog.ticket_email_subscribe.php", function () {
             $("#dialog").dialog("open");
         });
     });
 
-    $('.ticket_subscribe').livequery('click', function(e)
-    {
+    $('.ticket_subscribe').livequery('click', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
         $(this).removeClass('ticket_subscribe').addClass('ticket_unsubscribe');
         $.post("./lib/dyn_content.php?jquery=jquery.ticket_subscribe.php", {"id": id});
     });
 
-    $('.ticket_unsubscribe').livequery('click', function(e)
-    {
+    $('.ticket_unsubscribe').livequery('click', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
         $(this).removeClass('ticket_unsubscribe').addClass('ticket_subscribe');
         $.post("./lib/dyn_content.php?jquery=jquery.ticket_unsubscribe.php", {"id": id});
     });
 
-    $('.phase_subscribe').livequery('click', function(e)
-    {
+    $('.phase_subscribe').livequery('click', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
         $(this).removeClass('phase_subscribe').addClass('phase_unsubscribe');
         $.post("./lib/dyn_content.php?jquery=jquery.phase_subscribe.php", {"id": id});
     });
 
-    $('.phase_unsubscribe').livequery('click', function(e)
-    {
+    $('.phase_unsubscribe').livequery('click', function (e) {
         e.preventDefault();
         var id = $(this).data('id');
         $(this).removeClass('phase_unsubscribe').addClass('phase_subscribe');
         $.post("./lib/dyn_content.php?jquery=jquery.phase_unsubscribe.php", {"id": id});
     });
 
-    $('.cycle_select').livequery('change', function(e) {
+    $('.cycle_select').livequery('change', function (e) {
         var val = $(this).val();
-        $('#content').fadeTo('fast', 0, function() {
-            $('#content').load("./lib/dyn_content.php?page=page.board.php&id=" + val, function() {
+        $('#content').fadeTo('fast', 0, function () {
+            $('#content').load("./lib/dyn_content.php?page=page.board.php&id=" + val, function () {
                 $('#content').fadeTo('fast', 1);
             });
         });

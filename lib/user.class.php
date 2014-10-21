@@ -30,7 +30,8 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class User {
+class User
+{
 
     private $id = 0;
     private $name = "";
@@ -46,7 +47,8 @@ class User {
     private $default_color = "#102c65";
     private $default_hover_color = "#124191";
 
-    public function __construct($id, $board = NULL) {
+    public function __construct($id, $board = NULL)
+    {
         if (!isset($board)) {
             if (isset($GLOBALS['board'])) {
                 $this->board = $GLOBALS['board'];
@@ -82,7 +84,8 @@ class User {
         }
     }
 
-    public function hasAccessToBoard() {
+    public function hasAccessToBoard()
+    {
         if ($this->type == "SYSTEM_ADMIN") {
             return true;
         }
@@ -98,7 +101,8 @@ class User {
         return true;
     }
 
-    public function getUserBoards() {
+    public function getUserBoards()
+    {
         $boards = $GLOBALS['db']->get_results("SELECT * FROM board b LEFT JOIN user_board ub ON b.id = ub.board_id WHERE ub.user_id = '" . $this->id . "' ORDER BY b.name ASC");
 
         $ret = array();
@@ -111,11 +115,13 @@ class User {
         return $ret;
     }
 
-    public function getRealName() {
+    public function getRealName()
+    {
         return $this->name;
     }
 
-    public function getName() {
+    public function getName()
+    {
         if ($this->alias != null && $this->alias != '') {
             return $this->alias;
         }
@@ -130,40 +136,34 @@ class User {
         return $this->name;
     }
 
-    public function getAlias() {
+    public function getAlias()
+    {
         return $this->alias;
     }
 
-    public function setAlias($alias) {
+    public function setAlias($alias)
+    {
         $this->alias = $alias;
         $GLOBALS['db']->query("UPDATE user SET alias = '" . $alias . "' WHERE id = '" . $this->id . "' LIMIT 1");
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
 
-    public function getTimezone() {
+    public function getTimezone()
+    {
         return $this->timezone;
     }
 
-    public function getLastLogin() {
-        return $this->last_login;
-    }
-
-    public function getNokiaSite() {
-        return $this->nokiasite;
-    }
-
-    public function getType() {
-        return $this->type;
-    }
-
-    public function setTimezone($timezone) {
+    public function setTimezone($timezone)
+    {
         if ($timezone == $this->timezone) {
             return;
         }
@@ -171,7 +171,23 @@ class User {
         $GLOBALS['db']->query("UPDATE user SET timezone = '" . $timezone . "' WHERE id = '" . $this->id . "' LIMIT 1");
     }
 
-    public function setSetting($key, $value) {
+    public function getLastLogin()
+    {
+        return $this->last_login;
+    }
+
+    public function getNokiaSite()
+    {
+        return $this->nokiasite;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function setSetting($key, $value)
+    {
         $usr_setting = $GLOBALS['db']->get_row("SELECT * FROM personal_setting WHERE user_id = '" . $this->id . "' AND setting = '" . $key . "' LIMIT 1");
         if ($GLOBALS['db']->num_rows > 0) {
             $GLOBALS['db']->query("UPDATE personal_setting SET value = '" . $value . "' WHERE user_id = '" . $this->id . "' AND setting = '" . $key . "' LIMIT 1");
@@ -180,7 +196,8 @@ class User {
         }
     }
 
-    public function getSetting($key) {
+    public function getSetting($key)
+    {
         $usr_setting = $GLOBALS['db']->get_row("SELECT value FROM personal_setting WHERE user_id = '" . $this->id . "' AND setting = '" . $key . "' LIMIT 1");
         if ($usr_setting) {
             return $usr_setting->value;
@@ -202,12 +219,14 @@ class User {
         }
     }
 
-    public function getNumTickets() {
+    public function getNumTickets()
+    {
         $tickets = $GLOBALS['db']->get_var("SELECT COUNT(id) FROM ticket WHERE responsible = '" . $this->id . "' AND board_id = '" . $GLOBALS['board']->getBoardId() . "' AND active = '1' AND deleted = '0'");
         return $tickets;
     }
 
-    public function getPermission($key, $board_id = NULL) {
+    public function getPermission($key, $board_id = NULL)
+    {
         if ($this->type == "SYSTEM_ADMIN") {
             return true;
         }
@@ -271,7 +290,8 @@ class User {
         return $retval;
     }
 
-    public function setPermission($key) {
+    public function setPermission($key)
+    {
         $key = $GLOBALS['db']->escape($key);
         if ($key == '') {
             return;
@@ -286,11 +306,13 @@ class User {
         $GLOBALS['db']->query("INSERT INTO user_permission (board_id, user_id, permission_id) VALUES ('" . $GLOBALS['board']->getBoardId() . "', '" . $this->id . "', '" . $permission_id . "')");
     }
 
-    public function clearPermissions() {
+    public function clearPermissions()
+    {
         $GLOBALS['db']->query("DELETE FROM user_permission WHERE user_id = '" . $this->id . "' AND board_id = '" . $GLOBALS['board']->getBoardId() . "'");
     }
 
-    public function getNumPosts() {
+    public function getNumPosts()
+    {
         return $GLOBALS['db']->get_var("SELECT COUNT(id) FROM message WHERE user_id = '" . $this->id . "'");
     }
 

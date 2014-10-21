@@ -52,7 +52,7 @@ $board_array = array();
 if ($GLOBALS['db']->num_rows > 0) {
     foreach ($res as $s) {
         if (isset($s->date) && isset($s->num)) {
-            $tmp = array($s->date, (int) $s->num);
+            $tmp = array($s->date, (int)$s->num);
             array_push($board_array, $tmp);
             $new_data = true;
         }
@@ -72,7 +72,7 @@ $avg_arr = array();
 if ($GLOBALS['db']->num_rows > 0) {
     foreach ($avg_res as $s) {
         if (isset($s->date) && isset($s->avg)) {
-            $tmp = array($s->date, (float) $s->avg);
+            $tmp = array($s->date, (float)$s->avg);
             array_push($avg_arr, $tmp);
             $avg_new_data = true;
         }

@@ -38,7 +38,8 @@ require_once 'component.class.php';
 require_once 'reference.class.php';
 require_once 'board.class.php';
 
-class Ticket {
+class Ticket
+{
 
     private $id = 0;
     private $board_id = 0;
@@ -59,7 +60,8 @@ class Ticket {
     private $created = 0;
     private $status = "Active";
 
-    public function __construct($id) {
+    public function __construct($id)
+    {
         if ($id) {
             $this->id = $GLOBALS['db']->escape($id);
             $ticket = $GLOBALS['db']->get_row("SELECT * FROM ticket WHERE id = '" . $id . "'");
@@ -94,35 +96,43 @@ class Ticket {
         }
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return htmlentities($this->title, ENT_QUOTES);
     }
 
-    public function getInfo() {
+    public function getInfo()
+    {
         return htmlentities($this->info, ENT_QUOTES);
     }
 
-    public function getPriority() {
+    public function getPriority()
+    {
         return new Priority($this->priority);
     }
 
-    public function getPriorityId() {
+    public function getPriorityId()
+    {
         return $this->priority;
     }
 
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
-    public function getBoard() {
+    public function getBoard()
+    {
         return $this->board;
     }
 
-    public function getReferences() {
+    public function getReferences()
+    {
         if (!$this->reference_string) {
             return NULL;
         }
@@ -139,89 +149,107 @@ class Ticket {
         return $this->references;
     }
 
-    public function getReferenceString() {
+    public function getReferenceString()
+    {
         return $this->reference_string;
     }
 
-    public function isActive() {
+    public function isActive()
+    {
         return $this->active;
     }
 
-    public function isDeleted() {
+    public function isDeleted()
+    {
         return $this->deleted;
     }
 
-    public function getComponentId() {
+    public function getComponentId()
+    {
         return $this->component;
     }
 
-    public function getComponent() {
+    public function getComponent()
+    {
         return new Component($this->component);
     }
 
-    public function getLastChange() {
+    public function getLastChange()
+    {
         return $this->last_change;
     }
 
-    public function getCreated() {
+    public function getCreated()
+    {
         return $this->created;
     }
 
-    public function getComponentStr() {
+    public function getComponentStr()
+    {
         $comp = $GLOBALS['db']->get_var("SELECT name FROM component WHERE id = '" . $this->component . "' LIMIT 1");
         return $comp;
     }
 
-    public function getPriorityStr() {
+    public function getPriorityStr()
+    {
         $priority = new Priority($this->priority);
         return $priority->getName();
     }
 
-    public function addHistory($user_id, $data) {
-        $user_id = $GLOBALS['db']->escape($user_id);
-        $data = $GLOBALS['db']->escape($data);
-        $GLOBALS['db']->query("INSERT INTO ticket_history (ticket_id, user_id, data, created) VALUES ('" . $this->id . "', '" . $user_id . "', '" . $data . "', UTC_TIMESTAMP())");
-    }
-
-    public function addComment($user_id, $comment) {
+    public function addComment($user_id, $comment)
+    {
         $user_id = $GLOBALS['db']->escape($user_id);
         $comment = $GLOBALS['db']->escape($comment);
         $GLOBALS['db']->query("INSERT INTO ticket_comment (ticket_id, user_id, data, created) VALUES ('" . $this->id . "', '" . $user_id . "', '" . $comment . "', UTC_TIMESTAMP())");
     }
 
-    public function getResponsibleId() {
+    public function getResponsibleId()
+    {
         return $this->responsible;
     }
 
-    public function getResponsible() {
+    public function getResponsible()
+    {
         return new User($this->responsible);
     }
 
-    public function getWIP() {
+    public function getWIP()
+    {
         return $this->wip;
     }
 
-    public function getCycle() {
+    public function getCycle()
+    {
         return new Cycle($this->cycle);
     }
 
-    public function getCycleId() {
+    public function getCycleId()
+    {
         return $this->cycle;
     }
 
-    public function setPhaseId($new_phase) {
+    public function setPhaseId($new_phase)
+    {
         $this->phase = $new_phase;
     }
 
-    public function getPhase() {
+    public function getPhase()
+    {
         return new Phase($this->phase);
     }
 
-    public function getPhaseId() {
+    public function getPhaseId()
+    {
         return $this->phase;
     }
 
-    public function getParentId() {
+    public function getParent()
+    {
+        return new Ticket($this->getParentId());
+    }
+
+    public function getParentId()
+    {
         $link = $GLOBALS['db']->get_row("SELECT parent FROM ticket_link WHERE child = '" . $this->id . "' LIMIT 1");
 
         if ($link) {
@@ -231,11 +259,8 @@ class Ticket {
         }
     }
 
-    public function getParent() {
-        return new Ticket($this->getParentId());
-    }
-
-    public function getFirstChildId() {
+    public function getFirstChildId()
+    {
         $link = $GLOBALS['db']->get_row("SELECT child FROM ticket_link WHERE parent = '" . $this->id . "' LIMIT 1");
         if ($link) {
             return $link->child;
@@ -244,7 +269,8 @@ class Ticket {
         }
     }
 
-    public function getChildrenId() {
+    public function getChildrenId()
+    {
         $ret = array();
         $link = $GLOBALS['db']->get_results("SELECT child FROM ticket_link WHERE parent = '" . $this->id . "'");
         if ($link) {
@@ -255,11 +281,13 @@ class Ticket {
         return $ret;
     }
 
-    public function getNumChildren() {
+    public function getNumChildren()
+    {
         return $GLOBALS['db']->get_var("SELECT COUNT(*) FROM ticket_link WHERE parent = '" . $this->id . "'");
     }
 
-    public function getChildren() {
+    public function getChildren()
+    {
         $ret = array();
         $link = $GLOBALS['db']->get_results("SELECT child FROM ticket_link WHERE parent = '" . $this->id . "'");
         if ($link) {
@@ -270,15 +298,18 @@ class Ticket {
         return $ret;
     }
 
-    public function getNumComments() {
+    public function getNumComments()
+    {
         return $GLOBALS['db']->get_var("SELECT COUNT(id) FROM ticket_comment WHERE ticket_id = '" . $this->id . "'");
     }
 
-    public function getURL() {
+    public function getURL()
+    {
         return $this->board->getBoardURL() . '?ticket_id=' . $this->id;
     }
 
-    public function copyTo($board_id, $user_id) {
+    public function copyTo($board_id, $user_id)
+    {
         if ($board_id == null || $user_id == null) {
             return;
         }
@@ -329,7 +360,15 @@ class Ticket {
         }
     }
 
-    public function moveTo($board_id, $user_id) {
+    public function addHistory($user_id, $data)
+    {
+        $user_id = $GLOBALS['db']->escape($user_id);
+        $data = $GLOBALS['db']->escape($data);
+        $GLOBALS['db']->query("INSERT INTO ticket_history (ticket_id, user_id, data, created) VALUES ('" . $this->id . "', '" . $user_id . "', '" . $data . "', UTC_TIMESTAMP())");
+    }
+
+    public function moveTo($board_id, $user_id)
+    {
         if ($board_id == null || $user_id == null) {
             return;
         }

@@ -115,7 +115,8 @@ if (isset($get_ticket_id)) {
     }
 }
 
-function printPhaseTickets($phase, $cycle, $p_arr, $c_arr, $ticket_id) {
+function printPhaseTickets($phase, $cycle, $p_arr, $c_arr, $ticket_id)
+{
     $logged_user = NULL;
 
     if (isset($_SESSION['userid'])) {

@@ -52,7 +52,7 @@ foreach ($users as $user) {
     $res = $GLOBALS['db']->get_results("SELECT * FROM (SELECT * FROM user_day_stat WHERE board_id = '" . $GLOBALS['board']->getBoardId() . "' AND user_id = '" . $user->getId() . "' ORDER BY date DESC LIMIT 20) tmp ORDER BY tmp.date ASC");
     foreach ($res as $s) {
         if (isset($s->date) && isset($s->num)) {
-            $tmp = array($s->date, (int) $s->num);
+            $tmp = array($s->date, (int)$s->num);
             array_push($phase_arr, $tmp);
             $new_data = true;
         }

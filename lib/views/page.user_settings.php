@@ -43,9 +43,7 @@ echo '<h1>Users</h1>';
 
 if ($GLOBALS['use_ldap']) {
     echo '<div class="add_user_ldap"><button>Add new user</button></div>';
-}
-else
-{
+} else {
     echo '<div class="add_user"><button>Add new user</button></div>';
 }
 
@@ -76,7 +74,7 @@ foreach ($users as $user) {
     }
     echo '<td>' . $user->getTimezone() . '</td>';
     if (!$GLOBALS['use_ldap']) {
-        echo '<td><div class="edit_user"><a data-id="'.$user->getId() . '">Edit</a></div></td>';
+        echo '<td><div class="edit_user"><a data-id="' . $user->getId() . '">Edit</a></div></td>';
     }
     echo '<td><div class="remove_user"><a data-id="' . $user->getId() . '">Remove completely</a></div></td>';
     echo '<td><div class="permission_user"><a data-id="' . $user->getId() . '">Permissions</a></div>';

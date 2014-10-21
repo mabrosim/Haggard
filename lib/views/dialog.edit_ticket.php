@@ -189,10 +189,11 @@ echo '<p style="text-align: center; margin:0; margin-top: 10px;"><input type="su
 echo '</form>';
 
 if (isset($GLOBALS['cur_user']) &&
-        ($GLOBALS['cur_user']->getPermission('archive_ticket', $ticket->getBoard()->getBoardId()) ||
+    ($GLOBALS['cur_user']->getPermission('archive_ticket', $ticket->getBoard()->getBoardId()) ||
         $GLOBALS['cur_user']->getPermission('delete_ticket', $ticket->getBoard()->getBoardId()) ||
         $GLOBALS['cur_user']->getPermission('move_ticket_board', $ticket->getBoard()->getBoardId()) ||
-        $GLOBALS['cur_user']->getPermission('copy_ticket_board', $ticket->getBoard()->getBoardId()))) {
+        $GLOBALS['cur_user']->getPermission('copy_ticket_board', $ticket->getBoard()->getBoardId()))
+) {
     echo '<div class="show_more_options">';
     echo '<a href="#" style="text-decoration: none;"><div class="down_triangle"/> More options <div class="down_triangle"/></a>';
     echo '</div>';

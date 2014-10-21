@@ -54,14 +54,14 @@ if ($GLOBALS['use_ldap']) {
     }
 }
 
-$count = (int) $info['count'];
+$count = (int)$info['count'];
 if ($count > 10) {
     $count = 10;
 }
 
 for ($i = 0; $i < $count; $i++) {
     $results[] = array('label' => $info[$i]['cn'][0],
-        'value' => $info[$i]['mail'][0]);
+                       'value' => $info[$i]['mail'][0]);
 }
 
 echo json_encode($results);

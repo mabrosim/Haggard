@@ -32,14 +32,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 require_once 'user.class.php';
 
-class Message {
+class Message
+{
 
     private $id;
     private $user_id;
     private $message;
     private $time;
 
-    public function __construct($id) {
+    public function __construct($id)
+    {
         $id = $GLOBALS['db']->escape($id);
         $res = $GLOBALS['db']->get_row("SELECT * FROM message WHERE id = '" . $id . "' LIMIT 1");
 
@@ -51,24 +53,29 @@ class Message {
         }
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getUserId() {
+    public function getUserId()
+    {
         return $this->user_id;
     }
 
-    public function getUser() {
+    public function getUser()
+    {
         return new User($this->user_id);
     }
 
-    public function getMessage() {
+    public function getMessage()
+    {
         $ret = htmlspecialchars($this->message);
         return nl2br(preg_replace('#[a-zA-Z]+://\S+#m', '<a href="$0" rel="nofollow" target="_blank">$0</a>', $ret));
     }
 
-    public function getTime() {
+    public function getTime()
+    {
         return $this->time;
     }
 

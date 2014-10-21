@@ -32,7 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 $args = filter_input_array(INPUT_POST);
 if (!isset($args['id']) || $args['id'] == "" ||
-        !isset($args['email']) || $args['email'] == "") {
+    !isset($args['email']) || $args['email'] == ""
+) {
     return;
 }
 

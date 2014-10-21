@@ -33,14 +33,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 require_once 'user.class.php';
 require_once 'message.class.php';
 
-class MessageTopic {
+class MessageTopic
+{
 
     private $id;
     private $name;
     private $user_id;
     private $created;
 
-    public function __construct($id) {
+    public function __construct($id)
+    {
         $id = $GLOBALS['db']->escape($id);
         $res = $GLOBALS['db']->get_row("SELECT * FROM message_topic WHERE id = '" . $id . "' AND board_id = '" . $GLOBALS['board']->getBoardId() . "' LIMIT 1");
         if ($res) {
@@ -51,23 +53,28 @@ class MessageTopic {
         }
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getCreator() {
+    public function getCreator()
+    {
         return new User($this->user_id);
     }
 
-    public function getCreated() {
+    public function getCreated()
+    {
         return $this->created;
     }
 
-    public function getMessages() {
+    public function getMessages()
+    {
         $ret = array();
         $messages = $GLOBALS['db']->get_results("SELECT id FROM message WHERE topic_id = '" . $this->id . "' ORDER BY id DESC");
         if ($messages) {
@@ -79,11 +86,13 @@ class MessageTopic {
         return $ret;
     }
 
-    public function numPosts() {
+    public function numPosts()
+    {
         return $GLOBALS['db']->get_var("SELECT COUNT(id) FROM message WHERE topic_id = '" . $this->id . "'");
     }
 
-    public function getLastPost() {
+    public function getLastPost()
+    {
         $id = $GLOBALS['db']->get_var("SELECT MAX(id) FROM message WHERE topic_id = '" . $this->id . "'");
         if ($id) {
             return new Message($id);

@@ -79,62 +79,52 @@ if ($func == "board_settings") {
 
     if (empty($args['use_wip'])) {
         $use_wip = 0;
-    }
-    else {
+    } else {
         $use_wip = 1;
     }
     if (empty($args['use_cycles'])) {
         $use_cycles = 0;
-    }
-    else {
+    } else {
         $use_cycles = 1;
     }
     if (empty($args['use_linking'])) {
         $use_linking = 0;
-    }
-    else {
+    } else {
         $use_linking = 1;
     }
     if (empty($args['use_statistics'])) {
         $use_statistics = 0;
-    }
-    else {
+    } else {
         $use_statistics = 1;
     }
     if (empty($args['use_logging'])) {
         $use_logging = 0;
-    }
-    else {
+    } else {
         $use_logging = 1;
     }
     if (empty($args['use_priorities'])) {
         $use_priorities = 0;
-    }
-    else {
+    } else {
         $use_priorities = 1;
     }
     if (empty($args['show_ticket_help'])) {
         $show_ticket_help = 0;
-    }
-    else {
+    } else {
         $show_ticket_help = 1;
     }
     if (empty($args['use_firstname'])) {
         $use_firstname = 0;
-    }
-    else {
+    } else {
         $use_firstname = 1;
     }
     if (empty($args['private_board'])) {
         $private_board = 0;
-    }
-    else {
+    } else {
         $private_board = 1;
     }
     if (empty($args['send_email'])) {
         $send_email = 0;
-    }
-    else {
+    } else {
         $send_email = 1;
     }
 

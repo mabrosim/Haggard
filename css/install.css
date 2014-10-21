@@ -28,24 +28,22 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#install
-{
+#install {
     width: 400px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
     border: 1px solid #ccc;
     margin-top: 2em;
-    border-radius:25px;
-    -moz-border-radius:25px; /* Firefox 3.6 and earlier */
+    border-radius: 25px;
+    -moz-border-radius: 25px; /* Firefox 3.6 and earlier */
     -moz-box-shadow: 0px 5px 5px #888;
     -webkit-box-shadow: 0px 5px 5px #888;
     box-shadow: 0px 5px 5px #888;
 
 }
 
-#install h1
-{
+#install h1 {
     width: 100%;
     margin: 0;
     background-color: #2175bc;
@@ -56,24 +54,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     height: 45px;
 }
 
-#install_form
-{
-    text-align:left;
+#install_form {
+    text-align: left;
     margin: 15px;
 }
 
-#control
-{
+#control {
     width: 100%;
 }
 
-#control input
-{
+#control input {
     width: 50%;
 }
 
-form 
-{
+form {
     margin: 0;
 }
 

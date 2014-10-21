@@ -34,7 +34,10 @@ $(function () {
         var answer = confirm("Are you sure you want to remove this user? All tickets and related info will be destroyed! This cannot be undone.");
 
         if (answer) {
-            $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", {"func": "remove_user", "id": user_id}, function () {
+            $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", {
+                "func": "remove_user",
+                "id": user_id
+            }, function () {
                 $("#sub_content").load("./lib/dyn_content.php?page=page.user_settings.php");
             });
         }
@@ -61,7 +64,13 @@ $(function () {
                             return false;
                         }
 
-                        $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", { "func": "edit_user", "name": name, "id": user_id, "email": email, "pass": password }, function () {
+                        $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", {
+                            "func": "edit_user",
+                            "name": name,
+                            "id": user_id,
+                            "email": email,
+                            "pass": password
+                        }, function () {
                             $("#sub_content").load("./lib/dyn_content.php?page=page.user_settings.php", function () {
                                 $("#dialog").dialog("close");
                             });
@@ -92,7 +101,11 @@ $(function () {
                         checked.push($(this).val());
                     });
                     var permissions = checked.join();
-                    $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", {"func": "user_permissions", "id": user_id, "permissions": permissions}, function () {
+                    $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", {
+                        "func": "user_permissions",
+                        "id": user_id,
+                        "permissions": permissions
+                    }, function () {
                         $("#sub_content").load("./lib/dyn_content.php?page=page.user_settings.php", function () {
                             $("#dialog").dialog("close");
                         });
@@ -154,7 +167,10 @@ $(function () {
                             return false;
                         }
 
-                        $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", {"func": "new_user_ldap", "mail": name}, function (dada) {
+                        $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", {
+                            "func": "new_user_ldap",
+                            "mail": name
+                        }, function (dada) {
                             if (dada === "true") {
                                 $("#sub_content").load("./lib/dyn_content.php?page=page.user_settings.php", function () {
                                     $("#dialog").dialog("close");
@@ -196,7 +212,12 @@ $(function () {
                             return false;
                         }
 
-                        $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", {"func": "new_user", "name": name, "email": email, "pass": password  }, function (dada) {
+                        $.post("./lib/dyn_content.php?jquery=jquery.user_settings.php", {
+                            "func": "new_user",
+                            "name": name,
+                            "email": email,
+                            "pass": password
+                        }, function (dada) {
                             if (dada === "true") {
                                 $("#sub_content").load("./lib/dyn_content.php?page=page.user_settings.php", function () {
                                     $("#dialog").dialog("close");

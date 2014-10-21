@@ -55,7 +55,7 @@ foreach ($phases as $phase) {
     if (count($res) > 0) {
         foreach ($res as $s) {
             if (isset($s->date) && isset($s->num)) {
-                $tmp = array($s->date, (int) $s->num);
+                $tmp = array($s->date, (int)$s->num);
                 array_push($phase_arr, $tmp);
                 $new_data = true;
             }

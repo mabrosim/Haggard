@@ -30,15 +30,18 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class Priority {
+class Priority
+{
 
     private $priority = 0;
 
-    public function __construct($id = 0) {
+    public function __construct($id = 0)
+    {
         $this->priority = $id;
     }
 
-    public function getName() {
+    public function getName()
+    {
         $name = "";
         if ($GLOBALS['board']->getSettingValue("USE_PRIORITIES")) {
             switch ($this->priority) {
@@ -78,7 +81,8 @@ class Priority {
         return $name;
     }
 
-    public function getCSSClass() {
+    public function getCSSClass()
+    {
         $class = "";
         switch ($this->priority) {
             default:

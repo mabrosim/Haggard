@@ -32,13 +32,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 require_once 'user.class.php';
 
-class Log {
+class Log
+{
 
-    public function __construct() {
+    public function __construct()
+    {
 
     }
 
-    public function log($log_event) {
+    public function login($user)
+    {
+        $addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR');
+        $log_event = $user->getName() . ' logged in from ' . $addr;
+        $this->log($log_event);
+    }
+
+    public function log($log_event)
+    {
         if ($log_event == "") {
             return;
         }
@@ -47,13 +57,8 @@ class Log {
         $GLOBALS['db']->query("INSERT INTO log (board_id, data, date) VALUES ('" . $GLOBALS['board']->getBoardId() . "', '" . $log_event . "', UTC_TIMESTAMP())");
     }
 
-    public function login($user) {
-        $addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR');
-        $log_event = $user->getName() . ' logged in from ' . $addr;
-        $this->log($log_event);
-    }
-
-    public function logout($user) {
+    public function logout($user)
+    {
         $addr = filter_input(INPUT_SERVER, 'REMOTE_ADDR');
         $log_event = $user->getName() . ' logged out from ' . $addr;
         $this->log($log_event);

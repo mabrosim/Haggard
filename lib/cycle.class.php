@@ -32,7 +32,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 require_once 'ticket.class.php';
 
-class Cycle {
+class Cycle
+{
 
     private $id = 0;
     private $board_id = 0;
@@ -42,7 +43,8 @@ class Cycle {
     private $wip_limit = 0;
     private $active = 0;
 
-    public function __construct($id = 0) {
+    public function __construct($id = 0)
+    {
         $cycle = NULL;
 
         if ($id == 0) {
@@ -64,7 +66,8 @@ class Cycle {
         }
     }
 
-    public function getTickets() {
+    public function getTickets()
+    {
         $tickets = array();
         $res = $GLOBALS['db']->get_results("SELECT id FROM ticket WHERE board_id = '" . $GLOBALS['board']->getBoardId() . "' AND cycle = '" . $this->id . "' AND active = '1' AND deleted = '0' ORDER BY data");
         if ($res) {
@@ -76,31 +79,38 @@ class Cycle {
         return $tickets;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->title;
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getWIPLimit() {
+    public function getWIPLimit()
+    {
         return $this->wip_limit;
     }
 
-    public function getCurrentWIP() {
+    public function getCurrentWIP()
+    {
         return 0;
     }
 
-    public function getWIPLeft() {
+    public function getWIPLeft()
+    {
         return 0;
     }
 
-    public function getStart() {
+    public function getStart()
+    {
         return $this->start;
     }
 
-    public function getStop() {
+    public function getStop()
+    {
         return $this->stop;
     }
 

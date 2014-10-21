@@ -54,7 +54,7 @@ if ($GLOBALS['board']->getSettingValue("AUTO_ARCHIVE") != "1") {
 }
 echo '>';
 for ($i = 1; $i < 9; $i++) {
-    if (((int) $GLOBALS['board']->getSettingValue("AUTO_ARCHIVE_THRESHOLD")) == $i) {
+    if (((int)$GLOBALS['board']->getSettingValue("AUTO_ARCHIVE_THRESHOLD")) == $i) {
         echo '<option selected value="' . $i . '">' . $i . ' week';
     } else {
         echo '<option value="' . $i . '">' . $i . ' week';

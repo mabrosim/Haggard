@@ -30,12 +30,14 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class Component {
+class Component
+{
 
     private $id = 0;
     private $name = "";
 
-    public function __construct($id = 0) {
+    public function __construct($id = 0)
+    {
         $comp = $GLOBALS['db']->get_row("SELECT name FROM component WHERE id = '" . $id . "'");
         if ($comp) {
             $this->name = str_replace("_", " ", $comp->name);
@@ -46,11 +48,13 @@ class Component {
         }
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 

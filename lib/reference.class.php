@@ -30,19 +30,43 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-class Reference {
+class Reference
+{
 
     private $ref = "";
 
-    public function __construct($ref) {
+    public function __construct($ref)
+    {
         $this->ref = $ref;
     }
 
-    public function getRef() {
+    public function getRef()
+    {
         return $this->ref;
     }
 
-    public function getType() {
+    public function getURL()
+    {
+        $url = "";
+        switch ($this->getType()) {
+            case "Mzilla":
+                $url = 'https://mzilla/show_bug.cgi?id=' . $this->getId();
+                break;
+
+            case 'Coverity':
+                $url = "http://coverity/index.html";
+                break;
+
+            default:
+                $url = $this->ref;
+                break;
+        }
+
+        return $url;
+    }
+
+    public function getType()
+    {
         $type = "URL";
         $identifier = substr($this->ref, 0, 2);
         switch ($identifier) {
@@ -62,7 +86,8 @@ class Reference {
         return $type;
     }
 
-    public function getId() {
+    public function getId()
+    {
         $id = "";
         switch ($this->getType()) {
             case 'Mzilla':
@@ -76,25 +101,6 @@ class Reference {
         }
 
         return $id;
-    }
-
-    public function getURL() {
-        $url = "";
-        switch ($this->getType()) {
-            case "Mzilla":
-                $url = 'https://mzilla/show_bug.cgi?id=' . $this->getId();
-                break;
-
-            case 'Coverity':
-                $url = "http://coverity/index.html";
-                break;
-
-            default:
-                $url = $this->ref;
-                break;
-        }
-
-        return $url;
     }
 
 }

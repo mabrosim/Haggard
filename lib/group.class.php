@@ -32,28 +32,33 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 require_once 'user.class.php';
 
-class Group {
+class Group
+{
 
     private $id = 0;
     private $name = "";
     private $desc = "";
 
-    public function __construct($id = 0) {
+    public function __construct($id = 0)
+    {
         $this->id = $id;
         $group = $GLOBALS['db']->get_row("SELECT * FROM user_group WHERE id = '" . $this->id . "' LIMIT 1");
         $this->name = $group->name;
         $this->desc = $group->description;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->desc;
     }
 
-    public function getPermission($key) {
+    public function getPermission($key)
+    {
         /* User permissions overwrite the group permissions */
         $key = $GLOBALS['db']->escape($key);
 
@@ -77,7 +82,8 @@ class Group {
         return false;
     }
 
-    public function setPermission($key) {
+    public function setPermission($key)
+    {
         $key = $GLOBALS['db']->escape($key);
         $permission_id = $GLOBALS['db']->get_var("SELECT id FROM permission WHERE data = '" . $key . "' LIMIT 1");
         if (!$permission_id) {
@@ -88,7 +94,8 @@ class Group {
         $GLOBALS['db']->query("INSERT INTO group_permission (permission_id, group_id) VALUES ('" . $permission_id . "', '" . $this->id . "')");
     }
 
-    public function clearPermissions() {
+    public function clearPermissions()
+    {
         $GLOBALS['db']->query("DELETE FROM group_permission WHERE group_id = '" . $this->id . "'");
     }
 
