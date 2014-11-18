@@ -73,6 +73,7 @@ function init_dir() {
 
 function init_root() {
     $CP $misc/wwwroot_index.php $WWWHAGGARD/index.php
+    $CP $this_dir/../tools/cron_daily_stats.php $WWWHAGGARD/
     $CP $misc/board_index.php $WWWBASE/index.php
     $CP $misc/404.php $WWWHAGGARD/
     $CP $misc/404.php $WWWBASE/
