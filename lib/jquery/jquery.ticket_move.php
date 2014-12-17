@@ -128,13 +128,13 @@ if ($args['func'] == "comment") {
         $ticket->setPhaseId($phase);
 
         /* Send email */
-        $GLOBALS['email']->setReceipient($ticket->getResponsible());
+        $GLOBALS['email']->setRecipient($ticket->getResponsible());
         $GLOBALS['email']->ticketMove($ticket);
         $GLOBALS['email']->send();
 
         $t_subscribers = $GLOBALS['db']->get_results("SELECT user_id FROM ticket_subscription WHERE ticket_id = '" . $ticket->getId() . "'");
         if ($t_subscribers) {
-            foreach ($subscribers as $subscriber) {
+            foreach ($t_subscribers as $subscriber) {
                 if ($subscriber->user_id != $_SESSION['userid']) {
                     $GLOBALS['db']->query("INSERT INTO user_notification (board_id, user_id, title, type, link, status, time)  VALUES
                             ('" . $GLOBALS['board']->getBoardId() . "',
@@ -146,7 +146,7 @@ if ($args['func'] == "comment") {
                             UTC_TIMESTAMP())");
 
                     $sub = new User($subscriber->user_id);
-                    $GLOBALS['email']->setReceipient($sub);
+                    $GLOBALS['email']->setRecipient($sub);
                     $GLOBALS['email']->send();
                 }
             }
@@ -208,7 +208,7 @@ if ($args['func'] == "comment") {
                     $GLOBALS['db']->query("INSERT INTO user_notification (board_id, user_id, title, type, link, status, time) VALUES ('" . $GLOBALS['board']->getBoardId() . "', '" . $parent->getResponsibleId() . "', 'All children of " . $parent->getTitle() . " are in " . $new_phase->getName() . "', 'page', 'page.board.php&ticket_id=" . $parent->getId() . "', 'unread', UTC_TIMESTAMP())");
                 }
 
-                $GLOBALS['email']->setReceipient($parent->getResponsible());
+                $GLOBALS['email']->setRecipient($parent->getResponsible());
                 $GLOBALS['email']->ticketchildrensamephase($parent, $new_phase);
                 $GLOBALS['email']->send();
             }

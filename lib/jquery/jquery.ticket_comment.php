@@ -62,7 +62,7 @@ if (isset($args['func']) && $args['func'] == "new_comment") {
     $GLOBALS['logger']->log($log);
     $resp = $ticket->getResponsible();
 
-    $GLOBALS['email']->setReceipient($resp);
+    $GLOBALS['email']->setRecipient($resp);
     $GLOBALS['email']->setSubject("New comment on your ticket");
 
     $mail = $_SESSION['username'] . ' commented ticket "' . $ticket->getTitle() . '"<br><br>';
@@ -80,7 +80,7 @@ if (isset($args['func']) && $args['func'] == "new_comment") {
 
 
             $sub = new User($subscriber->user_id);
-            $GLOBALS['email']->setReceipient($sub);
+            $GLOBALS['email']->setRecipient($sub);
             $GLOBALS['email']->send();
         }
     }
@@ -105,7 +105,7 @@ if (isset($args['func']) && $args['func'] == "new_comment") {
     $log = $_SESSION['username'] . ' deleted comment "' . $comment->data . '" from <a class="ticket_comment_log" data-id="' . $ticket->getId() . '" href="">' . $ticket->getTitle() . '</a>';
     $GLOBALS['logger']->log($log);
     $resp = $ticket->getResponsible();
-    $GLOBALS['email']->setReceipient($resp);
+    $GLOBALS['email']->setRecipient($resp);
     $GLOBALS['email']->setSubject("Comment deleted on your ticket");
     $mail = $_SESSION['username'] . ' deleted comment from your ticket ' . $ticket->getTitle() . '<br><br>';
     $mail .= 'Comment: ' . str_replace('[br]', '<br', $comment->data) . '<br>';
@@ -117,7 +117,7 @@ if (isset($args['func']) && $args['func'] == "new_comment") {
         $GLOBALS['email']->setSubject("Comment deleted on ticket you are subscribed");
         foreach ($subscribers as $subscriber) {
             $sub = new User($subscriber->user_id);
-            $GLOBALS['email']->setReceipient($sub);
+            $GLOBALS['email']->setRecipient($sub);
             $GLOBALS['email']->send();
         }
     }

@@ -38,6 +38,8 @@ $GLOBALS['haggard_url'] = "haggard.domain.com";
 $GLOBALS['send_email_notifications'] = false;
 $GLOBALS['smtp_server'] = 'your.smtp.company.com';
 $GLOBALS['smtp_port'] = 25;
+$GLOBALS['smtp_username'] = '';
+$GLOBALS['smtp_password'] = '';
 
 /* LDAP configuration */
 $GLOBALS['use_ldap'] = false;

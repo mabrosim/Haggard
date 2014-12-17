@@ -100,19 +100,19 @@ if ($phase !== $old_ticket->getPhaseId()) {
 if ($resp !== $old_ticket->getResponsibleId()) {
     $log .= 'Responsible: from <a href="mailto:' . $old_user->getEmail() . '">' . $old_user->getName() . '</a> to <a href="mailto:' . $new_user->getEmail() . '">' . $new_user->getName() . '</a>. ';
 
-    $GLOBALS['email']->setReceipient($old_user);
+    $GLOBALS['email']->setRecipient($old_user);
     $GLOBALS['email']->setSubject("You are no longer responsible of ticket: " . $title);
     $GLOBALS['email']->setMessage("You are no longer responsible of ticket: " . $title . ". New responsible is " . $new_user->getName() . '<br><br>');
     $GLOBALS['email']->generateTicketFooter($old_ticket);
     $GLOBALS['email']->send();
 
-    $GLOBALS['email']->setReceipient($new_user);
+    $GLOBALS['email']->setRecipient($new_user);
     $GLOBALS['email']->setSubject("You are new responsible of ticket: " . $title);
     $GLOBALS['email']->setMessage("You are new responsible of ticket: " . $title . '<br><br>');
     $GLOBALS['email']->generateTicketFooter($old_ticket);
     $GLOBALS['email']->send();
 } else {
-    $GLOBALS['email']->setReceipient($new_user);
+    $GLOBALS['email']->setRecipient($new_user);
     $GLOBALS['email']->setSubject("Your ticket was modified");
     $GLOBALS['email']->setMessage("Ticket " . $title . " was modified by " . $_SESSION['username'] . '.<br><br>');
     $GLOBALS['email']->generateTicketFooter($old_ticket);
@@ -162,7 +162,7 @@ if ($subscribers) {
         }
 
         $sub = new User($subscriber->user_id);
-        $GLOBALS['email']->setReceipient($log);
+        $GLOBALS['email']->setRecipient($log);
         $GLOBALS['email']->send();
     }
 }

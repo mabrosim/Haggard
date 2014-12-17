@@ -71,7 +71,7 @@ if ($args['func'] == "delete_ticket") {
 
 
         $parent_resp = $parent->getResponsible();
-        $GLOBALS['email']->setReceipient($parent_resp);
+        $GLOBALS['email']->setRecipient($parent_resp);
         $GLOBALS['email']->setSubject("Child ticket deleted!");
         $GLOBALS['email']->setMessage($log);
         $GLOBALS['email']->send();
@@ -83,7 +83,7 @@ if ($args['func'] == "delete_ticket") {
         $GLOBALS['db']->query("INSERT INTO user_notification (board_id, user_id, title, type, link, status, time) VALUES ('" . $GLOBALS['board']->getBoardId() . "', '" . $ticket->getResponsibleId() . "', '" . $_SESSION['username'] . " deleted ticket " . $ticket->getTitle() . "', 'page', 'page.statistics.php&id=0', 'unread', UTC_TIMESTAMP())");
     }
 
-    $GLOBALS['email']->setReceipient($ticket->getResponsible());
+    $GLOBALS['email']->setRecipient($ticket->getResponsible());
     $GLOBALS['email']->setMessage($log);
     $GLOBALS['email']->setSubject("Your ticket was deleted!");
     $GLOBALS['email']->send();
@@ -97,7 +97,7 @@ if ($args['func'] == "delete_ticket") {
         $GLOBALS['email']->setSubject("Ticket was deleted!");
         foreach ($subscribers as $subscriber) {
             $sub = new User($subscriber->user_id);
-            $GLOBALS['email']->setReceipient($log);
+            $GLOBALS['email']->setRecipient($log);
             $GLOBALS['email']->send();
         }
     }
@@ -114,7 +114,7 @@ if ($args['func'] == "delete_ticket") {
                     $GLOBALS['db']->query("INSERT INTO user_notification (board_id, user_id, title, type, link, status, time) VALUES ('" . $GLOBALS['board']->getBoardId() . "', '" . $child->getResponsibleId() . "', '" . $_SESSION['username'] . " deleted ticket " . $child->getTitle() . "', 'page', 'page.statistics.php&id=0', 'unread', UTC_TIMESTAMP())");
                 }
 
-                $GLOBALS['email']->setReceipient($child->getResponsible());
+                $GLOBALS['email']->setRecipient($child->getResponsible());
                 $GLOBALS['email']->setSubject("Parent ticket deleted!");
                 $GLOBALS['email']->setMessage($log);
                 $GLOBALS['email']->send();
@@ -129,7 +129,7 @@ if ($args['func'] == "delete_ticket") {
                         }
 
                         $sub = new User($subscriber->user_id);
-                        $GLOBALS['email']->setReceipient($sub);
+                        $GLOBALS['email']->setRecipient($sub);
                         $GLOBALS['email']->send();
                     }
                 }

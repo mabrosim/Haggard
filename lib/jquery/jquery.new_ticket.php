@@ -79,7 +79,7 @@ $log = $_SESSION['username'] . ' created new ticket: ' . $title;
 $GLOBALS['logger']->log($log);
 
 $responsible = new User($resp);
-$GLOBALS['email']->setReceipient($responsible);
+$GLOBALS['email']->setRecipient($responsible);
 $GLOBALS['email']->setSubject("You have a new ticket!");
 $message = $_SESSION['username'] . ' created new ticket and you are responsible!<br><br>';
 $message .= "Ticket title: " . $title . "<br><br>";

@@ -49,7 +49,7 @@ $ticket->copyTo($board_id, $user_id);
 
 if ($user_id > 0) {
     $new_user = new User($user_id);
-    $GLOBALS['email']->setReceipient($new_user);
+    $GLOBALS['email']->setRecipient($new_user);
     $GLOBALS['email']->setSubject("You are new responsible of ticket: " . $ticket->getTitle());
     $msg = "You are new responsible of ticket: " . $ticket->getTitle() . "<br>";
     $msg .= "Ticket was copied from " . $old_board . " by " . $_SESSION['username'];
