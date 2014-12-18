@@ -22,3 +22,6 @@
 [submodule "3rdparty/jquery-plot"]
 	path = 3rdparty/jquery-plot
 	url = https://github.com/vpassapera/jqPlot.git
+[submodule "3rdparty/PHPMailer"]
+	path = 3rdparty/PHPMailer
+	url = https://github.com/PHPMailer/PHPMailer.git

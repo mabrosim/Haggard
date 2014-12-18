@@ -53,7 +53,7 @@ if (!isset($user_id) || $user_id <= 0) {
 $ticket->moveTo($board_id, $user_id);
 
 $new_user = new User($user_id);
-$GLOBALS['email']->setReceipient($new_user);
+$GLOBALS['email']->setRecipient($new_user);
 $GLOBALS['email']->setSubject("You are new responsible of ticket: " . $ticket->getTitle());
 $msg = "You are new responsible of ticket: " . $ticket->getTitle() . "<br>";
 $msg .= "Ticket was moved from " . $old_board . " by " . $_SESSION['username'];

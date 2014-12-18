@@ -76,7 +76,7 @@ if ($ticket->isActive()) {
 
         $parent->addHistory($_SESSION['userid'], $comment);
         $user = $parent->getResponsible();
-        $email->setReceipient($user);
+        $email->setRecipient($user);
         $email->setSubject("Ticket " . $parent->getTitle() . " was archived");
         $email->setMessage("Parent ticket " . $parent->getTitle() . " was archived by " . $_SESSION['username']);
         $email->send();
@@ -95,7 +95,7 @@ if ($ticket->isActive()) {
                 }
 
                 $user = $child->getResponsible();
-                $email->setReceipient($user);
+                $email->setRecipient($user);
                 $email->setSubject("Ticket " . $child->getTitle() . " was archived");
                 $email->setMessage("Child ticket " . $child->getTitle() . " was archived by " . $_SESSION['username']);
                 $email->send();
@@ -109,7 +109,7 @@ if ($ticket->isActive()) {
         $GLOBALS['db']->query("INSERT INTO user_notification (board_id, user_id, title, type, link, status, time) VALUES ('" . $GLOBALS['board']->getBoardId() . "', '" . $ticket->getResponsibleId() . "', '" . $ticket_log . "', 'page', 'page.statistics.php&id=0', 'unread', UTC_TIMESTAMP())");
     }
 
-    $email->setReceipient($user);
+    $email->setRecipient($user);
     $email->setSubject("Ticket " . $ticket->getTitle() . " was archived");
     $email->setMessage("Ticket " . $ticket->getTitle() . " was archived by " . $_SESSION['username']);
     $email->send();
@@ -124,7 +124,7 @@ if ($ticket->isActive()) {
     $GLOBALS['db']->query("UPDATE ticket SET active = '1' WHERE id = '" . $id . "' LIMIT 1");
 
     $user = $ticket->getResponsible();
-    $email->setReceipient($user);
+    $email->setRecipient($user);
     $email->setSubject("Ticket " . $ticket->getTitle() . " was unarchived");
     $email->setMessage("Ticket " . $ticket->getTitle() . " was unarchived by " . $_SESSION['username']);
     $email->generateTicketFooter($ticket);

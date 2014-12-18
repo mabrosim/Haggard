@@ -82,6 +82,11 @@ function init_3rdparty() {
         $CP "$thirdparty/jquery-plot/jquery.jqplot.min.css" $d/jqplot
         $CP "$thirdparty/jquery-plot/plugins/"*"min"* $d/jqplot/plugins
 
+        sudo mkdir -p "$d/PHPMailer/extras"
+        $CP "$thirdparty/PHPMailer/class.phpmailer.php" "$d/PHPMailer/"
+        $CP "$thirdparty/PHPMailer/class.smtp.php" "$d/PHPMailer/"
+        $CP "$thirdparty/PHPMailer/extras/class.html2text.php" "$d/PHPMailer/extras/"
+
         wget_more_libs $tmp
 
         minify "js" $tmp
