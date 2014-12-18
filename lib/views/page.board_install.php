@@ -88,7 +88,7 @@ echo '</div>';
 
 echo '<div id="control">';
 echo '<label>Board URL </label>';
-echo '<input type="text" name="url" id="url" value="https://' . $args["SERVER_NAME"] . $args["REQUEST_URI"] . '"/>';
+echo '<input type="text" name="url" id="url" value="http://' . $args["SERVER_NAME"] . $args["REQUEST_URI"] . '"/>';
 echo '</div>';
 
 echo '<div id="control">';

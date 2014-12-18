@@ -45,7 +45,7 @@ $(function () {
         if (answer) {
             $.post("./lib/dyn_content.php?jquery=jquery.board_settings.php", {"func": "delete_all_data"}, function () {
                 alert("All data has been erased! Please remove the folder from the server!");
-                window.location = "https://haggard";
+                window.location.assign(location.protocol + '//' + location.host);
             });
         }
 
