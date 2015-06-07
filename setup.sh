@@ -50,7 +50,7 @@ echo "Fetching 3rdparties..."
 git submodule update --init --recursive
 
 if [ ! -e dragsort-0.5.2.zip ]; then
-    wget -O dragsort-0.5.2.zip "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=dragsort&DownloadId=887234&FileTime=130517762092170000&Build=20959"
+    wget -O dragsort-0.5.2.zip "http://download-codeplex.sec.s-msft.com/Download/Release?ProjectName=dragsort&DownloadId=887234&FileTime=130517762092170000&Build=21018"
 fi
 unzip -n -d 3rdparty/jquery-dragsort dragsort-0.5.2.zip
 
